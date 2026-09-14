@@ -230,8 +230,7 @@
   <script src="https://code.highcharts.com/highcharts-3d.js"></script>
   
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwnq7CJAGLxxAdixZQLxjyjbfaKqPt1gQ8ch7mAmEqTckP-eomnbin7YZTSPxM0LaTWAA/exec";
-    const API_PLACEHOLDER = "https://script.google.com/macros/s/AKfycbwnq7CJAGLxxAdixZQLxjyjbfaKqPt1gQ8ch7mAmEqTckP-eomnbin7YZTSPxM0LaTWAA/exec";
+    const API_URL = "https://script.google.com/macros/library/d/1kf4wdDWigtffGG0mu3Pv1CFoKKc6B7ZQluHO0LaRgzh6rc_EP6f6qxR8/13";
     const DEFAULT_APP_TITLE = "אגודת שתולים";
     const $id = id => document.getElementById(id);
 
@@ -239,7 +238,10 @@
     let currentMembers = [], allPollsData = [], allMsgsData = [], isAdminUser = false, previewAsMember = false;
 
     function isApiConfigured() {
-      return API_URL && API_URL !== API_PLACEHOLDER;
+      if (typeof API_URL !== "string") return false;
+      const trimmed = API_URL.trim();
+      if (!trimmed || trimmed.includes("הכנס_כאן_את_הכתובת_החדשה_מגוגל")) return false;
+      return /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec(?:\?.*)?$/.test(trimmed);
     }
 
     function safeJsonParse(rawValue, fallback = null) {
