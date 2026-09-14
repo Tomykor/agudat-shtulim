@@ -232,10 +232,13 @@
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbwnq7CJAGLxxAdixZQLxjyjbfaKqPt1gQ8ch7mAmEqTckP-eomnbin7YZTSPxM0LaTWAA/exec";
     const DEFAULT_APP_TITLE = "אגודת שתולים";
+    const API_REQUEST_TIMEOUT_MS = 20000;
+    const API_MAX_RETRIES = 2;
+    const API_RETRY_BASE_DELAY_MS = 700;
     const $id = id => document.getElementById(id);
 
     let authModalInstance, memberModalInstance, resultsModalInstance, newMsgModalInstance, newPollModalInstance, editMsgModalInstance, editPollModalInstance;
-    let currentMembers = [], allPollsData = [], allMsgsData = [], isAdminUser = false, previewAsMember = false;
+    let currentMembers = [], allPollsData = [], allMsgsData = [], isAdminUser = false, previewAsMember = false, membersLoaded = false;
 
     function isApiConfigured() {
       if (typeof API_URL !== "string") return false;
@@ -274,6 +277,28 @@
         return value.map(option => String(option).trim()).filter(Boolean);
       }
       return String(value ?? "").split(",").map(option => option.trim()).filter(Boolean);
+    }
+
+    function delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function getRetryDelay(attempt) {
+      const backoff = API_RETRY_BASE_DELAY_MS * Math.pow(2, attempt);
+      const jitter = Math.floor(Math.random() * 250);
+      return backoff + jitter;
+    }
+
+    function isRetryableHttpStatus(status) {
+      return status === 429 || status >= 500;
+    }
+
+    async function parseApiJson(response) {
+      const contentType = (response.headers.get('content-type') || '').toLowerCase();
+      if (!contentType.includes('application/json')) {
+        throw new Error('NON_JSON_RESPONSE');
+      }
+      return response.json();
     }
 
     function formatDateTimeLocal(value) {
@@ -319,21 +344,46 @@
       if (!isApiConfigured()) {
         return { success: false, message: 'יש להגדיר את כתובת ה-API של Google Apps Script בקובץ.' };
       }
-      try {
-        const response = await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action, payload }),
-          redirect: 'follow'
-        });
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
+
+      let lastError = null;
+      for (let attempt = 0; attempt <= API_MAX_RETRIES; attempt++) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), API_REQUEST_TIMEOUT_MS);
+
+        try {
+          const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ action, payload }),
+            redirect: 'follow',
+            signal: controller.signal
+          });
+
+          if (!response.ok) {
+            if (isRetryableHttpStatus(response.status) && attempt < API_MAX_RETRIES) {
+              await delay(getRetryDelay(attempt));
+              continue;
+            }
+            return { success: false, message: `שגיאת שרת (${response.status})` };
+          }
+
+          const data = await parseApiJson(response);
+          return data;
+        } catch (error) {
+          lastError = error;
+          const isAbort = error && error.name === 'AbortError';
+          const isTransient = isAbort || error.message === 'NON_JSON_RESPONSE' || error.message === 'Failed to fetch';
+          if (isTransient && attempt < API_MAX_RETRIES) {
+            await delay(getRetryDelay(attempt));
+            continue;
+          }
+        } finally {
+          clearTimeout(timeoutId);
         }
-        return await response.json();
-      } catch (error) {
-        console.error(error);
-        return { success: false, message: 'שגיאת תקשורת עם השרת' };
       }
+
+      console.error('API communication failed', action, lastError);
+      return { success: false, message: 'שגיאת תקשורת עם השרת. נסו שוב בעוד כמה שניות.' };
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -353,6 +403,13 @@
         renderPolls(allPollsData);
         updateSummary();
         checkDeepLink();
+      }
+
+      const membersTabBtn = $id('members-tab');
+      if (membersTabBtn) {
+        membersTabBtn.addEventListener('shown.bs.tab', () => {
+          if (isAdminUser && !previewAsMember) loadAdminMembers();
+        });
       }
 
       showApiStatusBanner();
@@ -435,6 +492,7 @@
         loginBtn.onclick = () => {
           if (confirm('להתנתק?')) {
             localStorage.removeItem('authMemberId');
+            membersLoaded = false;
             location.reload();
           }
         };
@@ -451,6 +509,7 @@
       if (!savedId) {
         isAdminUser = false;
         previewAsMember = false;
+        membersLoaded = false;
         updateUIForAdmin();
         loadData();
         return;
@@ -459,8 +518,8 @@
       apiCall('checkAdminStatus', { memberId: savedId }).then(res => {
         isAdminUser = !!(res && (res.success || res === true));
         if (!isAdminUser) previewAsMember = false;
+        if (!isAdminUser) membersLoaded = false;
         updateUIForAdmin();
-        if (isAdminUser) loadAdminMembers();
         loadData();
       });
     }
@@ -907,8 +966,10 @@
     }
 
     function loadAdminMembers() {
+      if (membersLoaded) return;
       apiCall('getMembersList', { adminId: localStorage.getItem('authMemberId') }).then(list => {
         currentMembers = Array.isArray(list) ? list : [];
+        membersLoaded = true;
         renderMembersTable(currentMembers);
       });
     }
@@ -949,7 +1010,10 @@
       if (!confirm('למחוק את החבר מספר החברים?')) return;
       apiCall('deleteMemberData', { adminId: localStorage.getItem('authMemberId'), memberId }).then(res => {
         showToast(res.message, res.success ? 'success' : 'danger');
-        if (res.success) loadAdminMembers();
+        if (res.success) {
+          membersLoaded = false;
+          loadAdminMembers();
+        }
       });
     }
 
@@ -975,6 +1039,7 @@
         showToast(res.message, res.success ? 'success' : 'danger');
         if (res.success) {
           memberModalInstance.hide();
+          membersLoaded = false;
           loadAdminMembers();
         }
       });
