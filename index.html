@@ -7,24 +7,143 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <style>
-    :root { --primary-color: #1E3A8A; --primary-light: #3B82F6; }
-    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 1.1rem; color: #2b2b2b; background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%); min-height: 100vh; word-break: break-word; }
-    .glass-panel { background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07); border-radius: 16px; transition: transform 0.2s ease, box-shadow 0.2s ease; }
-    .glass-panel:hover { box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.12); }
-    .dark-glass { background: rgba(20, 25, 40, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); border-radius: 20px; color: #ffffff; }
-    .poll-option-wrapper { background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 12px; padding: 15px 15px; margin-bottom: 12px; cursor: pointer; transition: background 0.2s; }
-    .poll-option-wrapper:hover { background: rgba(255, 255, 255, 0.9); }
-    .poll-option-wrapper input[type="radio"] { transform: scale(1.5); margin-left: 12px; cursor: pointer; }
-    .poll-option-wrapper label { cursor: pointer; width: 100%; font-size: 1.1rem; font-weight: 500; }
-    .max-w-800 { max-width: 800px; margin: 0 auto; }
+    :root {
+      --primary-color: #1e3a8a;
+      --primary-light: #3b82f6;
+      --accent-color: #0f766e;
+      --surface-color: rgba(255, 255, 255, 0.58);
+      --surface-strong: rgba(255, 255, 255, 0.78);
+      --text-main: #1f2937;
+      --text-soft: #5b6475;
+      --border-soft: rgba(255, 255, 255, 0.72);
+      --shadow-soft: 0 12px 40px rgba(31, 38, 135, 0.1);
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 1.05rem;
+      color: var(--text-main);
+      background:
+        radial-gradient(circle at top right, rgba(59, 130, 246, 0.2), transparent 24%),
+        radial-gradient(circle at bottom left, rgba(15, 118, 110, 0.18), transparent 28%),
+        linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+      min-height: 100vh;
+      word-break: break-word;
+      background-attachment: fixed;
+    }
+    .glass-panel {
+      background: var(--surface-color);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+      border-radius: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .glass-panel:hover { box-shadow: 0 16px 48px rgba(31, 38, 135, 0.14); }
+    .dark-glass {
+      background: rgba(20, 25, 40, 0.78);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 10px 36px rgba(0, 0, 0, 0.32);
+      border-radius: 24px;
+      color: #ffffff;
+    }
+    .poll-option-wrapper {
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    }
+    .poll-option-wrapper:hover {
+      background: rgba(255, 255, 255, 0.92);
+      transform: translateY(-1px);
+      border-color: rgba(59, 130, 246, 0.35);
+    }
+    .poll-option-wrapper input[type="radio"] { transform: scale(1.35); margin-left: 12px; cursor: pointer; }
+    .poll-option-wrapper label { cursor: pointer; width: 100%; font-size: 1rem; font-weight: 600; }
+    .max-w-800 { max-width: 880px; margin: 0 auto; }
     .bg-gradient-primary { background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%); }
-    .card-modern { border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); background: #fff; }
+    .card-modern { border-radius: 20px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08); background: rgba(255, 255, 255, 0.92); }
     .nav-scrollable { display: flex; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; padding-bottom: 5px; gap: 8px; }
     .nav-scrollable::-webkit-scrollbar { display: none; }
-    .nav-pills .nav-link { color: #6c757d; background-color: transparent; transition: all 0.3s ease; white-space: nowrap; font-size: 1rem; }
-    .nav-pills .nav-link.active { background-color: var(--primary-color); color: white; box-shadow: 0 4px 10px rgba(30, 58, 138, 0.3); }
-    .admin-toolbar { background: rgba(255,255,255,0.7); border: 1px solid rgba(0,0,0,0.08); border-radius: 12px; padding: 10px; margin-top: 15px; }
-    @media (max-width: 576px) { .glass-panel { padding: 1rem !important; } .btn-lg { font-size: 1.1rem; padding: 0.6rem 1rem; } }
+    .nav-pills .nav-link { color: #52607a; background-color: transparent; transition: all 0.25s ease; white-space: nowrap; font-size: 0.98rem; }
+    .nav-pills .nav-link.active { background-color: var(--primary-color); color: white; box-shadow: 0 8px 20px rgba(30, 58, 138, 0.28); }
+    .admin-toolbar { background: rgba(255,255,255,0.78); border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 14px; padding: 10px; margin-top: 16px; }
+    .hero-panel { overflow: hidden; position: relative; }
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: auto -40px -80px auto;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.24), transparent 68%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      width: 100%;
+      max-width: 360px;
+    }
+    .stat-card {
+      padding: 14px 12px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.66);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      text-align: center;
+    }
+    .stat-card strong { display: block; font-size: 1.5rem; color: var(--primary-color); }
+    .stat-card span { color: var(--text-soft); font-size: 0.9rem; }
+    .soft-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(30, 58, 138, 0.1);
+      color: var(--primary-color);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .section-note { color: var(--text-soft); font-size: 0.95rem; }
+    .message-card, .poll-card { position: relative; overflow: hidden; }
+    .message-card::after, .poll-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent 36%);
+    }
+    .poll-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .poll-meta .badge, .message-meta .badge { font-weight: 700; }
+    .status-banner { border-radius: 18px; }
+    .empty-state {
+      padding: 42px 20px;
+      text-align: center;
+      color: var(--text-soft);
+      background: rgba(255, 255, 255, 0.52);
+      border: 1px dashed rgba(30, 58, 138, 0.18);
+      border-radius: 18px;
+    }
+    .table-responsive { border-radius: 16px; }
+    .member-actions { display: flex; gap: 8px; justify-content: flex-end; }
+    @media (max-width: 767px) {
+      .hero-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: none; }
+      .table { min-width: 760px; }
+    }
+    @media (max-width: 576px) {
+      .glass-panel { padding: 1rem !important; }
+      .btn-lg { font-size: 1rem; padding: 0.7rem 1rem; }
+      .hero-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+      .stat-card strong { font-size: 1.2rem; }
+      .navbar-brand { font-size: 1.1rem !important; }
+      .poll-option-wrapper { padding: 12px; }
+    }
   </style>
 </head>
 <body>
@@ -46,6 +165,30 @@
   </nav>
 
   <div class="container pb-5 max-w-800">
+    <div id="api-status-banner" class="alert alert-warning shadow-sm border-0 glass-panel status-banner d-none mb-4" role="alert"></div>
+    <section class="glass-panel p-4 p-md-5 mb-4 hero-panel">
+      <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-4">
+        <div>
+          <span class="soft-badge"><i class="bi bi-house-heart"></i> קהילת שתולים</span>
+          <h2 class="fw-bold mt-3 mb-2 text-dark">מרכז הודעות, הצבעות וניהול קהילה</h2>
+          <p class="section-note mb-0">גישה מהירה להודעות רשמיות, הצבעות מאובטחות וספר חברים בממשק עברי מותאם לנייד.</p>
+        </div>
+        <div class="hero-grid" id="quick-stats">
+          <div class="stat-card">
+            <strong id="stat-messages">0</strong>
+            <span>הודעות</span>
+          </div>
+          <div class="stat-card">
+            <strong id="stat-polls">0</strong>
+            <span>הצבעות</span>
+          </div>
+          <div class="stat-card">
+            <strong id="stat-open-polls">0</strong>
+            <span>פתוחות</span>
+          </div>
+        </div>
+      </div>
+    </section>
     <ul class="nav nav-pills nav-scrollable mb-4 glass-panel p-2" id="mainTabs" role="tablist">
       <li class="nav-item"><button class="nav-link active py-2 px-3 rounded-pill fw-bold" id="messages-tab" data-bs-toggle="pill" data-bs-target="#view-messages"><i class="bi bi-megaphone fs-5 me-2"></i>הודעות</button></li>
       <li class="nav-item"><button class="nav-link py-2 px-3 rounded-pill fw-bold" id="polls-tab" data-bs-toggle="pill" data-bs-target="#view-polls"><i class="bi bi-ui-checks fs-5 me-2"></i>הצבעות</button></li>
@@ -87,12 +230,93 @@
   <script src="https://code.highcharts.com/highcharts-3d.js"></script>
   
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwXzv43WlhRDFM2NdE_WbJrnnVUYMdMq2E1wf0ybcfWxfVJRVSynY_oLYhDeZWD2beuLA/exec";
-    
+    const API_URL = "https://script.google.com/macros/s/AKfycbwnq7CJAGLxxAdixZQLxjyjbfaKqPt1gQ8ch7mAmEqTckP-eomnbin7YZTSPxM0LaTWAA/exec";
+    const API_PLACEHOLDER = "https://script.google.com/macros/s/AKfycbwnq7CJAGLxxAdixZQLxjyjbfaKqPt1gQ8ch7mAmEqTckP-eomnbin7YZTSPxM0LaTWAA/exec";
+    const DEFAULT_APP_TITLE = "אגודת שתולים";
+    const $id = id => document.getElementById(id);
+
     let authModalInstance, memberModalInstance, resultsModalInstance, newMsgModalInstance, newPollModalInstance, editMsgModalInstance, editPollModalInstance;
-    let currentMembers=[], allPollsData=[], allMsgsData=[], isAdminUser=false, previewAsMember=false;
+    let currentMembers = [], allPollsData = [], allMsgsData = [], isAdminUser = false, previewAsMember = false;
+
+    function isApiConfigured() {
+      return API_URL && API_URL !== API_PLACEHOLDER;
+    }
+
+    function safeJsonParse(rawValue, fallback = null) {
+      try {
+        return JSON.parse(rawValue);
+      } catch (error) {
+        return fallback;
+      }
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function sanitizeDomToken(value) {
+      return String(value ?? "").replace(/[^a-zA-Z0-9_-]/g, "_");
+    }
+
+    function jsStringLiteral(value) {
+      return JSON.stringify(String(value ?? ""));
+    }
+
+    function normalizeOptions(value) {
+      if (Array.isArray(value)) {
+        return value.map(option => String(option).trim()).filter(Boolean);
+      }
+      return String(value ?? "").split(",").map(option => option.trim()).filter(Boolean);
+    }
+
+    function formatDateTimeLocal(value) {
+      if (!value) return "";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "";
+      date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+      return date.toISOString().slice(0, 16);
+    }
+
+    function formatDisplayDateTime(value) {
+      if (!value) return "";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "";
+      return new Intl.DateTimeFormat('he-IL', { dateStyle: 'short', timeStyle: 'short' }).format(date);
+    }
+
+    function getPollDomId(pollId) {
+      return `poll-card-${sanitizeDomToken(pollId)}`;
+    }
+
+    function getPollOptionDomId(pollId, index) {
+      return `poll-${sanitizeDomToken(pollId)}-opt-${index}`;
+    }
+
+    function setElementText(id, value) {
+      const element = $id(id);
+      if (element) element.textContent = value;
+    }
+
+    function setAppTitle(title, showIcon) {
+      const titleEl = $id('app-title-display');
+      titleEl.textContent = '';
+      if (showIcon) {
+        const icon = document.createElement('i');
+        icon.className = 'bi bi-houses me-2';
+        titleEl.appendChild(icon);
+      }
+      titleEl.appendChild(document.createTextNode(title));
+    }
 
     async function apiCall(action, payload = {}) {
+      if (!isApiConfigured()) {
+        return { success: false, message: 'יש להגדיר את כתובת ה-API של Google Apps Script בקובץ.' };
+      }
       try {
         const response = await fetch(API_URL, {
           method: 'POST',
@@ -100,818 +324,676 @@
           body: JSON.stringify({ action, payload }),
           redirect: 'follow'
         });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
         return await response.json();
-      } catch (e) { console.error(e); return { success: false, message: "שגיאת תקשורת עם השרת" }; }
+      } catch (error) {
+        console.error(error);
+        return { success: false, message: 'שגיאת תקשורת עם השרת' };
+      }
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-      authModalInstance = new bootstrap.Modal(document.getElementById('authModal'));
-      resultsModalInstance = new bootstrap.Modal(document.getElementById('resultsModal'));
-      newMsgModalInstance = new bootstrap.Modal(document.getElementById('newMsgModal'));
-      newPollModalInstance = new bootstrap.Modal(document.getElementById('newPollModal'));
-      editMsgModalInstance = new bootstrap.Modal(document.getElementById('editMsgModal'));
-      editPollModalInstance = new bootstrap.Modal(document.getElementById('editPollModal'));
-      memberModalInstance = new bootstrap.Modal(document.getElementById('memberModal'));
-      
-      const cachedData = sessionStorage.getItem('appDataCache');
+    document.addEventListener('DOMContentLoaded', () => {
+      authModalInstance = new bootstrap.Modal($id('authModal'));
+      resultsModalInstance = new bootstrap.Modal($id('resultsModal'));
+      newMsgModalInstance = new bootstrap.Modal($id('newMsgModal'));
+      newPollModalInstance = new bootstrap.Modal($id('newPollModal'));
+      editMsgModalInstance = new bootstrap.Modal($id('editMsgModal'));
+      editPollModalInstance = new bootstrap.Modal($id('editPollModal'));
+      memberModalInstance = new bootstrap.Modal($id('memberModal'));
+
+      const cachedData = safeJsonParse(sessionStorage.getItem('appDataCache'));
       if (cachedData) {
-        const parsed = JSON.parse(cachedData);
-        allMsgsData = parsed.messages || []; allPollsData = parsed.polls || [];
-        renderMessages(allMsgsData); renderPolls(allPollsData);
+        allMsgsData = Array.isArray(cachedData.messages) ? cachedData.messages : [];
+        allPollsData = Array.isArray(cachedData.polls) ? cachedData.polls : [];
+        renderMessages(allMsgsData);
+        renderPolls(allPollsData);
+        updateSummary();
+        checkDeepLink();
       }
 
-      loadAppSettings(); checkLoginState();
+      showApiStatusBanner();
+      loadAppSettings();
+      checkLoginState();
     });
 
-    function showToast(msg, type='primary') { const t = document.getElementById('sysToast'); t.className = `toast align-items-center text-bg-${type} border-0 rounded-4 shadow-lg`; document.getElementById('sysToastMsg').innerHTML = msg; new bootstrap.Toast(t, { delay: 3500 }).show(); }
-    function setBtnLoading(btnId, isLoading, text) { const btn = document.getElementById(btnId); if(btn) { btn.disabled = isLoading; btn.innerHTML = isLoading ? `<span class="spinner-border spinner-border-sm me-2"></span>מעבד...` : text; } }
+    function showApiStatusBanner() {
+      const banner = $id('api-status-banner');
+      if (isApiConfigured()) {
+        banner.classList.add('d-none');
+        banner.textContent = '';
+        return;
+      }
+      banner.innerHTML = '<strong>נדרשת הגדרה:</strong> החליפו את ערך API_URL בכתובת ה-Web App של Google Apps Script לפני העלאה לסביבת הייצור.';
+      banner.classList.remove('d-none');
+    }
+
+    function showToast(msg, type = 'primary') {
+      const toast = $id('sysToast');
+      toast.className = `toast align-items-center text-bg-${type} border-0 rounded-4 shadow-lg`;
+      $id('sysToastMsg').textContent = msg;
+      new bootstrap.Toast(toast, { delay: 3500 }).show();
+    }
+
+    function setBtnLoading(btnId, isLoading, text) {
+      const btn = $id(btnId);
+      if (!btn) return;
+      btn.disabled = isLoading;
+      btn.innerHTML = isLoading ? '<span class="spinner-border spinner-border-sm me-2"></span>מעבד...' : text;
+    }
+
+    function updateSummary() {
+      const openPolls = allPollsData.filter(poll => {
+        if (!poll.deadline) return true;
+        const deadline = new Date(poll.deadline).getTime();
+        return Number.isNaN(deadline) || Date.now() <= deadline;
+      }).length;
+      setElementText('stat-messages', String(allMsgsData.length));
+      setElementText('stat-polls', String(allPollsData.length));
+      setElementText('stat-open-polls', String(openPolls));
+    }
 
     function loadAppSettings() {
       apiCall('getAppSettings').then(settings => {
-        document.title = settings.title || 'אגודה'; document.getElementById('admin-setting-title').value = settings.title || '';
-        const logoEl = document.getElementById('app-logo');
-        if(settings.logo) { logoEl.src = settings.logo; logoEl.classList.remove('d-none'); document.getElementById('app-title-display').innerHTML = settings.title; } else { logoEl.classList.add('d-none'); document.getElementById('app-title-display').innerHTML = '<i class="bi bi-houses me-2"></i>' + settings.title; }
-        document.getElementById('admin-setting-logo').value = settings.logo || '';
+        const title = settings && settings.title ? String(settings.title) : DEFAULT_APP_TITLE;
+        const logo = settings && settings.logo ? String(settings.logo) : '';
+        document.title = title;
+        $id('admin-setting-title').value = title;
+        $id('admin-setting-logo').value = logo;
+
+        const logoEl = $id('app-logo');
+        if (logo) {
+          logoEl.src = logo;
+          logoEl.classList.remove('d-none');
+          setAppTitle(title, false);
+        } else {
+          logoEl.classList.add('d-none');
+          setAppTitle(title, true);
+        }
       });
     }
 
     function saveSettings() {
-      const t = document.getElementById('admin-setting-title').value.trim(), l = document.getElementById('admin-setting-logo').value.trim();
-      setBtnLoading('btn-save-settings', true);
-      apiCall('saveAppSettings', { adminId: localStorage.getItem("authMemberId"), title: t, logo: l }).then(res => { setBtnLoading('btn-save-settings', false, '<i class="bi bi-save me-2"></i>שמור הגדרות'); showToast(res.message, res.success ? "success" : "danger"); if(res.success) loadAppSettings(); });
+      const title = $id('admin-setting-title').value.trim() || DEFAULT_APP_TITLE;
+      const logo = $id('admin-setting-logo').value.trim();
+      setBtnLoading('btn-save-settings', true, 'שומר...');
+      apiCall('saveAppSettings', { adminId: localStorage.getItem('authMemberId'), title, logo }).then(res => {
+        setBtnLoading('btn-save-settings', false, '<i class="bi bi-save me-2"></i>שמור הגדרות');
+        showToast(res.message, res.success ? 'success' : 'danger');
+        if (res.success) loadAppSettings();
+      });
+    }
+
+    function setLoginButton(isLoggedIn) {
+      const loginBtn = $id('nav-login-btn');
+      if (isLoggedIn) {
+        loginBtn.innerHTML = '<i class="bi bi-box-arrow-right me-1"></i> ניתוק';
+        loginBtn.className = 'btn btn-light rounded-pill px-3 shadow-sm text-primary fw-bold';
+        loginBtn.onclick = () => {
+          if (confirm('להתנתק?')) {
+            localStorage.removeItem('authMemberId');
+            location.reload();
+          }
+        };
+        return;
+      }
+      loginBtn.innerHTML = '<i class="bi bi-person-circle me-1"></i> התחברות';
+      loginBtn.className = 'btn btn-outline-light rounded-pill px-3 shadow-sm';
+      loginBtn.onclick = () => authModalInstance.show();
     }
 
     function checkLoginState() {
-      const savedId = localStorage.getItem("authMemberId");
-      if (savedId) {
-        document.getElementById("nav-login-btn").innerHTML = '<i class="bi bi-box-arrow-right me-1"></i> ניתוק';
-        document.getElementById("nav-login-btn").className = "btn btn-light rounded-pill px-3 shadow-sm text-primary fw-bold";
-        document.getElementById("nav-login-btn").onclick = () => { if(confirm("להתנתק?")) { localStorage.removeItem("authMemberId"); location.reload(); } };
-        apiCall('checkAdminStatus', { memberId: savedId }).then(res => { isAdminUser = res.success || res; updateUIForAdmin(); if(isAdminUser) { document.getElementById("preview-mode-wrapper").classList.remove("d-none"); loadAdminMembers(); } loadData(); });
-      } else {
-        updateUIForAdmin(); document.getElementById("nav-login-btn").onclick = () => authModalInstance.show(); loadData();
+      const savedId = localStorage.getItem('authMemberId');
+      setLoginButton(!!savedId);
+      if (!savedId) {
+        isAdminUser = false;
+        previewAsMember = false;
+        updateUIForAdmin();
+        loadData();
+        return;
       }
+
+      apiCall('checkAdminStatus', { memberId: savedId }).then(res => {
+        isAdminUser = !!(res && (res.success || res === true));
+        if (!isAdminUser) previewAsMember = false;
+        updateUIForAdmin();
+        if (isAdminUser) loadAdminMembers();
+        loadData();
+      });
     }
 
-    function updateUIForAdmin() { document.querySelectorAll('.admin-only-ui').forEach(el => { if(isAdminUser && !previewAsMember) el.classList.remove('d-none'); else el.classList.add('d-none'); }); }
-    function togglePreviewMode() { previewAsMember = document.getElementById("preview-mode-toggle").checked; updateUIForAdmin(); renderMessages(allMsgsData); renderPolls(allPollsData); }
+    function updateUIForAdmin() {
+      const previewWrapper = $id('preview-mode-wrapper');
+      const previewToggle = $id('preview-mode-toggle');
+      previewWrapper.classList.toggle('d-none', !isAdminUser);
+      if (!isAdminUser) previewToggle.checked = false;
 
-    function loadData() { 
-      apiCall('getAppData').then(data => { 
-        if(!data.messages) return;
-        sessionStorage.setItem('appDataCache', JSON.stringify(data));
-        allMsgsData = data.messages || []; allPollsData = data.polls || []; 
-        renderMessages(allMsgsData); renderPolls(allPollsData); checkDeepLink(); 
+      document.querySelectorAll('.admin-only-ui').forEach(el => {
+        el.classList.toggle('d-none', !(isAdminUser && !previewAsMember));
       });
+    }
+
+    function togglePreviewMode() {
+      previewAsMember = $id('preview-mode-toggle').checked;
+      updateUIForAdmin();
+      renderMessages(allMsgsData);
+      renderPolls(allPollsData);
+    }
+
+    function loadData() {
+      apiCall('getAppData').then(data => {
+        if (!data || !Array.isArray(data.messages) || !Array.isArray(data.polls)) {
+          if (data && data.message) showToast(data.message, 'danger');
+          return;
+        }
+        sessionStorage.setItem('appDataCache', JSON.stringify(data));
+        allMsgsData = data.messages;
+        allPollsData = data.polls;
+        renderMessages(allMsgsData);
+        renderPolls(allPollsData);
+        updateSummary();
+        checkDeepLink();
+      });
+    }
+
+    function activateTab(tabId) {
+      const trigger = $id(tabId);
+      if (trigger) bootstrap.Tab.getOrCreateInstance(trigger).show();
     }
 
     function checkDeepLink() {
-      const params = new URLSearchParams(window.location.search); const pId = params.get('pollId');
-      if(pId && allPollsData.some(p => p.id === pId)) {
-        bootstrap.Tab.getInstance(document.getElementById('polls-tab')).show();
-        setTimeout(() => { const el = document.getElementById('poll-card-'+pId); if(el) { el.scrollIntoView({behavior: 'smooth', block: 'center'}); el.style.boxShadow = "0 0 20px rgba(59, 130, 246, 0.8)"; setTimeout(()=> el.style.boxShadow = "", 3000); } }, 800);
-      }
+      const pollId = new URLSearchParams(window.location.search).get('pollId');
+      if (!pollId || !allPollsData.some(poll => String(poll.id) === String(pollId))) return;
+      activateTab('polls-tab');
+      setTimeout(() => {
+        const target = $id(getPollDomId(pollId));
+        if (!target) return;
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        target.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.3), 0 14px 40px rgba(59, 130, 246, 0.22)';
+        setTimeout(() => { target.style.boxShadow = ''; }, 2600);
+      }, 500);
     }
 
-    function renderMessages(msgs) {
-      const cont = document.getElementById("messages-container"); cont.innerHTML = "";
-      if (!msgs.length) return cont.innerHTML = "<div class='text-muted fs-4 mt-4'>אין הודעות.</div>";
-      msgs.forEach(m => {
-        let bClr = m.category==="דחוף" ? "bg-danger text-white" : (m.category==="פנאי" ? "bg-success text-success" : "bg-primary text-primary");
-        const pinBadge = m.isPinned ? `<span class="badge bg-warning text-dark border ms-2 px-3 py-2 rounded-pill"><i class="bi bi-pin-angle-fill"></i> נעוץ</span>` : '';
-        let adminToolbar = (isAdminUser && !previewAsMember) ? `<div class="admin-toolbar d-flex flex-wrap gap-2 justify-content-end mt-3"><button class="btn btn-sm btn-dark rounded-pill px-3" onclick="openEditMsg('${m.id}')"><i class="bi bi-pencil me-1"></i> ערוך</button><button class="btn btn-sm btn-danger rounded-pill px-3" onclick="deleteMsgAction('${m.id}')"><i class="bi bi-trash me-1"></i> מחק</button></div>` : '';
-        cont.innerHTML += `<div class="glass-panel mb-4 text-start p-4"><div class="d-flex justify-content-between mb-3 border-bottom pb-2"><div><span class="badge ${bClr} bg-opacity-10 border fs-6 px-3 py-2 rounded-pill">${m.category}</span>${pinBadge}</div><small class="text-secondary fw-medium fs-6 mt-1">${m.timestamp}</small></div><h3 class="card-title fw-bold text-dark mb-3 fs-4">${m.title}</h3><p class="card-text text-secondary fs-6 lh-lg" style="white-space: pre-wrap;">${m.content}</p>${adminToolbar}</div>`;
-      });
+    function getMessageCategoryClass(category) {
+      if (category === 'דחוף') return 'bg-danger text-white';
+      if (category === 'פנאי') return 'bg-success text-white';
+      return 'bg-primary text-white';
+    }
+
+    function buildMessageCard(message) {
+      const pinBadge = message.isPinned ? '<span class="badge bg-warning text-dark border px-3 py-2 rounded-pill"><i class="bi bi-pin-angle-fill me-1"></i>נעוץ</span>' : '';
+      const validUntil = message.validUntil ? `<small class="section-note d-block mt-3"><i class="bi bi-calendar-event me-1"></i>בתוקף עד ${escapeHtml(formatDisplayDateTime(message.validUntil))}</small>` : '';
+      const adminToolbar = (isAdminUser && !previewAsMember)
+        ? `<div class="admin-toolbar d-flex flex-wrap gap-2 justify-content-end"><button class="btn btn-sm btn-dark rounded-pill px-3" onclick='openEditMsg(${jsStringLiteral(message.id)})'><i class="bi bi-pencil me-1"></i>ערוך</button><button class="btn btn-sm btn-danger rounded-pill px-3" onclick='deleteMsgAction(${jsStringLiteral(message.id)})'><i class="bi bi-trash me-1"></i>מחק</button></div>`
+        : '';
+
+      return `
+        <article class="glass-panel message-card mb-4 text-start p-4">
+          <div class="d-flex justify-content-between align-items-start gap-3 mb-3 border-bottom pb-3">
+            <div class="message-meta d-flex flex-wrap gap-2">
+              <span class="badge ${getMessageCategoryClass(message.category)} px-3 py-2 rounded-pill">${escapeHtml(message.category || 'כללי')}</span>
+              ${pinBadge}
+            </div>
+            <small class="text-secondary fw-medium fs-6">${escapeHtml(message.timestamp || '')}</small>
+          </div>
+          <h3 class="card-title fw-bold text-dark mb-3 fs-4">${escapeHtml(message.title)}</h3>
+          <p class="card-text text-secondary fs-6 lh-lg mb-0" style="white-space: pre-wrap;">${escapeHtml(message.content)}</p>
+          ${validUntil}
+          ${adminToolbar}
+        </article>`;
+    }
+
+    function renderMessages(messages) {
+      const container = $id('messages-container');
+      if (!messages.length) {
+        container.innerHTML = '<div class="empty-state">אין הודעות פעילות כרגע.</div>';
+        return;
+      }
+      container.innerHTML = messages.map(buildMessageCard).join('');
+    }
+
+    function getPollStatusMeta(poll) {
+      if (!poll.deadline) {
+        return { isClosed: false, badge: '<span class="badge bg-info-subtle text-info-emphasis px-3 py-2 rounded-pill">ללא מועד סגירה</span>' };
+      }
+      const deadline = new Date(poll.deadline).getTime();
+      const isClosed = !Number.isNaN(deadline) && Date.now() > deadline;
+      if (isClosed) {
+        return { isClosed: true, badge: `<span class="badge bg-danger px-3 py-2 rounded-pill"><i class="bi bi-clock-history me-1"></i>נסגר ב-${escapeHtml(formatDisplayDateTime(poll.deadline))}</span>` };
+      }
+      return { isClosed: false, badge: `<span class="badge bg-warning text-dark px-3 py-2 rounded-pill"><i class="bi bi-stopwatch me-1"></i>פתוח עד ${escapeHtml(formatDisplayDateTime(poll.deadline))}</span>` };
+    }
+
+    function selectPollOption(pollId, optionIndex) {
+      const optionInput = $id(getPollOptionDomId(pollId, optionIndex));
+      if (optionInput) optionInput.checked = true;
+    }
+
+    function buildPollCard(poll) {
+      const options = normalizeOptions(poll.options);
+      const statusMeta = getPollStatusMeta(poll);
+      const pollName = `poll_${sanitizeDomToken(poll.id)}`;
+      const optionsHtml = options.map((option, index) => {
+        const optionId = getPollOptionDomId(poll.id, index);
+        return `<div class="poll-option-wrapper d-flex align-items-center" onclick='selectPollOption(${jsStringLiteral(poll.id)}, ${index})'><input class="form-check-input mt-0" type="radio" name="${pollName}" id="${optionId}" value="${escapeHtml(option)}"><label class="form-check-label text-dark" for="${optionId}">${escapeHtml(option)}</label></div>`;
+      }).join('');
+
+      const baseUrl = window.location.origin + window.location.pathname;
+      const shareUrl = `${baseUrl}?pollId=${encodeURIComponent(poll.id)}`;
+      const waText = encodeURIComponent(`הצבעה באגודה: ${poll.title}\nכניסה ישירה לסקר:\n${shareUrl}`);
+      const shareButton = `<a href="https://api.whatsapp.com/send?text=${waText}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success rounded-pill fw-bold w-100 mb-3 py-2"><i class="bi bi-whatsapp me-2"></i>שתף בוואטסאפ</a>`;
+
+      let actionButtons = '';
+      if (!statusMeta.isClosed) {
+        actionButtons += `<button class="btn btn-primary btn-lg w-100 rounded-pill fw-bold shadow-sm py-2 mb-3" id="btn-vote-${sanitizeDomToken(poll.id)}" onclick='initiateVote(${jsStringLiteral(poll.id)})'>שלח הצבעה</button>`;
+      }
+      if (poll.visibility === 'always' || (poll.visibility === 'after_close' && statusMeta.isClosed)) {
+        actionButtons += `<button class="btn btn-outline-primary btn-lg w-100 rounded-pill fw-bold shadow-sm py-2 bg-white mb-3" onclick='viewResults(${jsStringLiteral(poll.id)})'><i class="bi bi-bar-chart-fill me-2"></i>תוצאות</button>`;
+      }
+
+      const adminToolbar = (isAdminUser && !previewAsMember)
+        ? `<div class="admin-toolbar d-flex flex-wrap gap-2 justify-content-end"><button class="btn btn-sm btn-primary rounded-pill px-3" onclick='viewResults(${jsStringLiteral(poll.id)})'><i class="bi bi-bar-chart me-1"></i>תוצאות מנהל</button><button class="btn btn-sm btn-dark rounded-pill px-3" onclick='openEditPoll(${jsStringLiteral(poll.id)})'><i class="bi bi-pencil me-1"></i>ערוך</button><button class="btn btn-sm btn-danger rounded-pill px-3" onclick='deletePollAction(${jsStringLiteral(poll.id)})'><i class="bi bi-trash me-1"></i>מחק</button></div>`
+        : '';
+
+      return `
+        <article id="${getPollDomId(poll.id)}" class="glass-panel poll-card mb-5 text-start p-4">
+          <div class="d-flex flex-wrap justify-content-between gap-2 align-items-start mb-3">
+            <h3 class="card-title text-primary fw-bold mb-0 fs-4">${escapeHtml(poll.title)}</h3>
+            <div class="poll-meta">
+              ${statusMeta.badge}
+              <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">${poll.isSecret ? 'חשאית' : 'גלויה'}</span>
+              <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">${options.length} אפשרויות</span>
+            </div>
+          </div>
+          <p class="card-text fs-6 text-secondary mb-4">${escapeHtml(poll.description || 'ללא תיאור נוסף.')}</p>
+          <div class="mb-4 pt-2">${optionsHtml}</div>
+          ${actionButtons}
+          ${shareButton}
+          ${adminToolbar}
+        </article>`;
     }
 
     function renderPolls(polls) {
-      const cont = document.getElementById("polls-container"); cont.innerHTML = "";
-      if (!polls.length) return cont.innerHTML = "<div class='text-muted fs-4 mt-4'>אין סקרים כרגע.</div>";
-      
-      const baseUrl = window.location.origin + window.location.pathname;
-      polls.forEach(p => {
-        let opts = "";
-        p.options.forEach((o, i) => { if(o.trim()) opts += `<div class="poll-option-wrapper d-flex align-items-center" onclick="document.getElementById('opt_${p.id}_${i}').checked = true;"><input class="form-check-input mt-0" type="radio" name="poll_${p.id}" id="opt_${p.id}_${i}" value="${o.trim()}"><label class="form-check-label text-dark" for="opt_${p.id}_${i}">${o.trim()}</label></div>`; });
-        
-        const now = new Date().getTime(); let isClosed = false, timeHtml = '';
-        if(p.deadline) {
-          const dl = new Date(p.deadline).getTime();
-          if(now > dl) { isClosed = true; timeHtml = `<span class="badge bg-danger px-3 py-2 fs-6 rounded-pill mb-4"><i class="bi bi-clock-history me-1"></i> נסגר</span>`; } 
-          else { timeHtml = `<span class="badge bg-warning text-dark px-3 py-2 fs-6 rounded-pill mb-4"><i class="bi bi-stopwatch me-1"></i> פתוח להצבעה</span>`; }
-        }
-        
-        const shareUrl = `${baseUrl}?pollId=${p.id}`;
-        const waText = encodeURIComponent(`הצבעה חדשה באגודה: ${p.title}\nלחצו כאן כדי להצביע:\n${shareUrl}`);
-        const shareBtnHtml = `<a href="https://api.whatsapp.com/send?text=${waText}" target="_blank" class="btn btn-outline-success rounded-pill fw-bold w-100 mb-3 py-2"><i class="bi bi-whatsapp me-2"></i>שתף בוואטסאפ</a>`;
-        
-        let buttonsHtml = '';
-        if(!isClosed) buttonsHtml += `<button class="btn btn-primary btn-lg w-100 rounded-pill fw-bold shadow-sm py-2 mb-3" id="btn-vote-${p.id}" onclick="initiateVote('${p.id}')">שלח הצבעה</button>`;
-        if(p.visibility === 'always' || (p.visibility === 'after_close' && isClosed)) buttonsHtml += `<button class="btn btn-outline-primary btn-lg w-100 rounded-pill fw-bold shadow-sm py-2 bg-white mb-3" onclick="viewResults('${p.id}')"><i class="bi bi-bar-chart-fill me-2"></i>תוצאות</button>`;
-        
-        let adminToolbar = (isAdminUser && !previewAsMember) ? `<div class="admin-toolbar d-flex flex-wrap gap-2 justify-content-end mt-4"><button class="btn btn-sm btn-primary rounded-pill px-3" onclick="viewResults('${p.id}')"><i class="bi bi-bar-chart"></i> תוצאות מנהל</button><button class="btn btn-sm btn-dark rounded-pill px-3" onclick="openEditPoll('${p.id}')"><i class="bi bi-pencil me-1"></i> ערוך</button><button class="btn btn-sm btn-danger rounded-pill px-3" onclick="deletePollAction('${p.id}')"><i class="bi bi-trash me-1"></i> מחק</button></div>` : '';
-        
-        cont.innerHTML += `<div id="poll-card-${p.id}" class="glass-panel mb-5 text-start p-4"><h3 class="card-title text-primary fw-bold mb-3 fs-4">${p.title}</h3><p class="card-text fs-6 text-secondary mb-4">${p.description}</p><div>${timeHtml}</div><div class="mb-4 pt-2">${opts}</div>${buttonsHtml}${shareBtnHtml}${adminToolbar}</div>`;
-      });
+      const container = $id('polls-container');
+      if (!polls.length) {
+        container.innerHTML = '<div class="empty-state">אין סקרים זמינים כרגע.</div>';
+        return;
+      }
+      container.innerHTML = polls.map(buildPollCard).join('');
     }
 
     function openEditMsg(id) {
-      const m = allMsgsData.find(x => x.id === id); if(!m) return;
-      document.getElementById("edit-msg-id").value = m.id; document.getElementById("edit-msg-title").value = m.title; document.getElementById("edit-msg-content").value = m.content; document.getElementById("edit-msg-category").value = m.category; document.getElementById("edit-msg-pinned").checked = m.isPinned;
-      if(m.validUntil) { const d = new Date(m.validUntil); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); document.getElementById("edit-msg-deadline").value = d.toISOString().slice(0,16); } else document.getElementById("edit-msg-deadline").value = "";
+      const message = allMsgsData.find(item => String(item.id) === String(id));
+      if (!message) return;
+      $id('edit-msg-id').value = message.id;
+      $id('edit-msg-title').value = message.title;
+      $id('edit-msg-content').value = message.content;
+      $id('edit-msg-category').value = message.category;
+      $id('edit-msg-pinned').checked = !!message.isPinned;
+      $id('edit-msg-deadline').value = formatDateTimeLocal(message.validUntil);
       editMsgModalInstance.show();
     }
+
     function saveEditedMsg() {
-      const id = document.getElementById("edit-msg-id").value, t = document.getElementById("edit-msg-title").value.trim(), c = document.getElementById("edit-msg-content").value.trim();
-      if(!t || !c) return showToast("חסרים נתונים", "warning");
-      setBtnLoading('btn-save-edit-msg', true);
-      apiCall('updateMessage', { adminId: localStorage.getItem("authMemberId"), msgId: id, title: t, content: c, category: document.getElementById("edit-msg-category").value, validUntil: document.getElementById("edit-msg-deadline").value, isPinned: document.getElementById("edit-msg-pinned").checked }).then(r => { setBtnLoading('btn-save-edit-msg', false, 'שמור'); showToast(r.message, r.success?"success":"danger"); if(r.success) { editMsgModalInstance.hide(); loadData(); } });
+      const id = $id('edit-msg-id').value;
+      const title = $id('edit-msg-title').value.trim();
+      const content = $id('edit-msg-content').value.trim();
+      if (!title || !content) return showToast('חסרים נתונים', 'warning');
+      setBtnLoading('btn-save-edit-msg', true, 'שומר...');
+      apiCall('updateMessage', {
+        adminId: localStorage.getItem('authMemberId'),
+        msgId: id,
+        title,
+        content,
+        category: $id('edit-msg-category').value,
+        validUntil: $id('edit-msg-deadline').value,
+        isPinned: $id('edit-msg-pinned').checked
+      }).then(res => {
+        setBtnLoading('btn-save-edit-msg', false, 'שמור');
+        showToast(res.message, res.success ? 'success' : 'danger');
+        if (res.success) {
+          editMsgModalInstance.hide();
+          loadData();
+        }
+      });
     }
-    function deleteMsgAction(id) { if(confirm("למחוק הודעה?")) apiCall('deleteMessage', {adminId: localStorage.getItem("authMemberId"), msgId: id}).then(r => { showToast(r.message, r.success?"success":"danger"); loadData(); }); }
-    
+
+    function deleteMsgAction(id) {
+      if (!confirm('למחוק הודעה?')) return;
+      apiCall('deleteMessage', { adminId: localStorage.getItem('authMemberId'), msgId: id }).then(res => {
+        showToast(res.message, res.success ? 'success' : 'danger');
+        if (res.success) loadData();
+      });
+    }
+
     function openEditPoll(id) {
-      const p = allPollsData.find(x => x.id === id); if(!p) return;
-      document.getElementById("edit-poll-id").value = p.id; document.getElementById("edit-poll-title").value = p.title; document.getElementById("edit-poll-desc").value = p.description;
-      document.getElementById("edit-poll-options").value = p.options.join(", "); document.getElementById("edit-poll-secret").checked = p.isSecret; document.getElementById("edit-poll-visibility").value = p.visibility;
-      if(p.deadline) { const d = new Date(p.deadline); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); document.getElementById("edit-poll-deadline").value = d.toISOString().slice(0,16); } else document.getElementById("edit-poll-deadline").value = "";
+      const poll = allPollsData.find(item => String(item.id) === String(id));
+      if (!poll) return;
+      $id('edit-poll-id').value = poll.id;
+      $id('edit-poll-title').value = poll.title;
+      $id('edit-poll-desc').value = poll.description;
+      $id('edit-poll-options').value = normalizeOptions(poll.options).join(', ');
+      $id('edit-poll-secret').checked = !!poll.isSecret;
+      $id('edit-poll-visibility').value = poll.visibility || 'always';
+      $id('edit-poll-deadline').value = formatDateTimeLocal(poll.deadline);
       editPollModalInstance.show();
     }
+
     function saveEditedPoll() {
-      const id = document.getElementById("edit-poll-id").value, t = document.getElementById("edit-poll-title").value.trim(), o = document.getElementById("edit-poll-options").value.trim();
-      if(!t || !o) return showToast("חסרים נתונים", "warning");
-      setBtnLoading('btn-save-edit-poll', true);
-      apiCall('updatePoll', { adminId: localStorage.getItem("authMemberId"), pollId: id, title: t, description: document.getElementById("edit-poll-desc").value.trim(), options: o, isSecret: document.getElementById("edit-poll-secret").checked, deadline: document.getElementById("edit-poll-deadline").value, visibility: document.getElementById("edit-poll-visibility").value }).then(r => { setBtnLoading('btn-save-edit-poll', false, 'שמור'); showToast(r.message, r.success?"success":"danger"); if(r.success) { editPollModalInstance.hide(); loadData(); } });
+      const id = $id('edit-poll-id').value;
+      const title = $id('edit-poll-title').value.trim();
+      const options = normalizeOptions($id('edit-poll-options').value).join(', ');
+      if (!title || !options) return showToast('חסרים נתונים', 'warning');
+      setBtnLoading('btn-save-edit-poll', true, 'שומר...');
+      apiCall('updatePoll', {
+        adminId: localStorage.getItem('authMemberId'),
+        pollId: id,
+        title,
+        description: $id('edit-poll-desc').value.trim(),
+        options,
+        isSecret: $id('edit-poll-secret').checked,
+        deadline: $id('edit-poll-deadline').value,
+        visibility: $id('edit-poll-visibility').value
+      }).then(res => {
+        setBtnLoading('btn-save-edit-poll', false, 'שמור');
+        showToast(res.message, res.success ? 'success' : 'danger');
+        if (res.success) {
+          editPollModalInstance.hide();
+          loadData();
+        }
+      });
     }
-    function deletePollAction(id) { if(confirm("למחוק סקר?")) apiCall('deletePoll', {adminId: localStorage.getItem("authMemberId"), pollId: id}).then(r => { showToast(r.message, r.success?"success":"danger"); loadData(); }); }
+
+    function deletePollAction(id) {
+      if (!confirm('למחוק סקר?')) return;
+      apiCall('deletePoll', { adminId: localStorage.getItem('authMemberId'), pollId: id }).then(res => {
+        showToast(res.message, res.success ? 'success' : 'danger');
+        if (res.success) loadData();
+      });
+    }
+
+    function clearMessageForm() {
+      $id('new-msg-title').value = '';
+      $id('new-msg-content').value = '';
+      $id('new-msg-category').value = 'כללי';
+      $id('new-msg-deadline').value = '';
+      $id('new-msg-pinned').checked = false;
+    }
+
+    function clearPollForm() {
+      $id('new-poll-title').value = '';
+      $id('new-poll-desc').value = '';
+      $id('new-poll-options').value = '';
+      $id('new-poll-deadline').value = '';
+      $id('new-poll-visibility').value = 'always';
+      $id('new-poll-secret').checked = true;
+    }
 
     function submitNewMessage() {
-      const t = document.getElementById("new-msg-title").value.trim(), c = document.getElementById("new-msg-content").value.trim();
-      if(!t || !c) return showToast("מלא כותרת ותוכן.", "warning");
-      setBtnLoading('btn-submit-msg', true);
-      apiCall('addMessage', { adminId: localStorage.getItem("authMemberId"), title: t, content: c, category: document.getElementById("new-msg-category").value, validUntil: document.getElementById("new-msg-deadline").value, isPinned: document.getElementById("new-msg-pinned").checked }).then(r => { 
-        setBtnLoading('btn-submit-msg', false, 'פרסם'); showToast(r.message, r.success?"success":"danger"); if(r.success) { newMsgModalInstance.hide(); loadData(); } 
+      const title = $id('new-msg-title').value.trim();
+      const content = $id('new-msg-content').value.trim();
+      if (!title || !content) return showToast('מלא כותרת ותוכן.', 'warning');
+      setBtnLoading('btn-submit-msg', true, 'מפרסם...');
+      apiCall('addMessage', {
+        adminId: localStorage.getItem('authMemberId'),
+        title,
+        content,
+        category: $id('new-msg-category').value,
+        validUntil: $id('new-msg-deadline').value,
+        isPinned: $id('new-msg-pinned').checked
+      }).then(res => {
+        setBtnLoading('btn-submit-msg', false, 'פרסם');
+        showToast(res.message, res.success ? 'success' : 'danger');
+        if (res.success) {
+          newMsgModalInstance.hide();
+          clearMessageForm();
+          loadData();
+        }
       });
     }
-    
+
     function submitNewPoll() {
-      const t = document.getElementById("new-poll-title").value.trim(), o = document.getElementById("new-poll-options").value.trim();
-      if(!t || !o) return showToast("מלא נושא ואפשרויות.", "warning");
-      setBtnLoading('btn-submit-poll', true);
-      apiCall('addPoll', { adminId: localStorage.getItem("authMemberId"), title: t, description: document.getElementById("new-poll-desc").value.trim(), options: o, isSecret: document.getElementById("new-poll-secret").checked, deadline: document.getElementById("new-poll-deadline").value, visibility: document.getElementById("new-poll-visibility").value }).then(r => { 
-        setBtnLoading('btn-submit-poll', false, 'פתח הצבעה'); showToast(r.message, r.success?"success":"danger"); if(r.success) { newPollModalInstance.hide(); loadData(); } 
+      const title = $id('new-poll-title').value.trim();
+      const options = normalizeOptions($id('new-poll-options').value).join(', ');
+      if (!title || !options) return showToast('מלא נושא ואפשרויות.', 'warning');
+      setBtnLoading('btn-submit-poll', true, 'יוצר סקר...');
+      apiCall('addPoll', {
+        adminId: localStorage.getItem('authMemberId'),
+        title,
+        description: $id('new-poll-desc').value.trim(),
+        options,
+        isSecret: $id('new-poll-secret').checked,
+        deadline: $id('new-poll-deadline').value,
+        visibility: $id('new-poll-visibility').value
+      }).then(res => {
+        setBtnLoading('btn-submit-poll', false, 'פתח הצבעה');
+        showToast(res.message, res.success ? 'success' : 'danger');
+        if (res.success) {
+          newPollModalInstance.hide();
+          clearPollForm();
+          loadData();
+        }
       });
     }
 
-    function initiateVote(pollId) { const opt = document.querySelector(`input[name="poll_${pollId}"]:checked`); if (!opt) return showToast("בחר אפשרות להצבעה.", "warning"); const savedId = localStorage.getItem("authMemberId"); if (!savedId) authModalInstance.show(); else { setBtnLoading(`btn-vote-${pollId}`, true); apiCall('submitVote', {pollId, memberId: savedId, voteSelection: opt.value}).then(r => { setBtnLoading(`btn-vote-${pollId}`, false, 'שלח הצבעה'); showToast(r.message, r.success?"success":"danger"); }); } }
-    
+    function initiateVote(pollId) {
+      const radioName = `poll_${sanitizeDomToken(pollId)}`;
+      const selectedOption = document.querySelector(`input[name="${radioName}"]:checked`);
+      if (!selectedOption) return showToast('בחר אפשרות להצבעה.', 'warning');
+
+      const memberId = localStorage.getItem('authMemberId');
+      if (!memberId) {
+        authModalInstance.show();
+        return;
+      }
+
+      setBtnLoading(`btn-vote-${sanitizeDomToken(pollId)}`, true, 'שולח...');
+      apiCall('submitVote', { pollId, memberId, voteSelection: selectedOption.value }).then(res => {
+        setBtnLoading(`btn-vote-${sanitizeDomToken(pollId)}`, false, 'שלח הצבעה');
+        showToast(res.message, res.success ? 'success' : 'danger');
+        if (res.success) loadData();
+      });
+    }
+
     function viewResults(pollId) {
-      document.getElementById("resultsModalBody").innerHTML = '<div class="text-center py-5"><div class="spinner-border text-light"></div></div>';
+      $id('resultsModalBody').innerHTML = '<div class="text-center py-5"><div class="spinner-border text-light"></div></div>';
       resultsModalInstance.show();
-      apiCall('getPollResults', { pollId, memberId: localStorage.getItem("authMemberId") || "" }).then(res => {
-        if(!res.success) return document.getElementById("resultsModalBody").innerHTML = `<div class="alert alert-danger">${res.message}</div>`;
-        document.getElementById("resultsModalBody").innerHTML = `<h4 class="mb-4 text-center fw-bold" style="color:#e0eafc;">סה"כ מצביעים: <span style="color:#00ff9d;">${res.total}</span></h4><div style="position: relative;"><div id="pollChart3D" style="height: 380px; width: 100%; direction: ltr;"></div></div>`;
-        Highcharts.chart('pollChart3D', { chart: { type: 'pie', backgroundColor: 'transparent', options3d: { enabled: true, alpha: 45, beta: 0 } }, title: { text: null }, tooltip: { pointFormat: 'קולות: <b>{point.y}</b> ({point.percentage:.1f}%)', style: { fontFamily: 'Segoe UI', fontSize: '14px', direction: 'rtl' }, useHTML: true }, plotOptions: { pie: { innerSize: '55%', depth: 40, dataLabels: { enabled: true, format: '<b>{point.name}</b><br>{point.percentage:.1f}%', style: { color: '#ffffff', textOutline: 'none', fontSize: '14px' } }, colors: ['#00f2fe', '#f093fb', '#00ff9d', '#ff0844', '#f5576c'] } }, series: [{ name: 'תוצאות', data: res.results.map(r => ({ name: r.option, y: r.votes })) }], credits: { enabled: false } });
+      apiCall('getPollResults', { pollId, memberId: localStorage.getItem('authMemberId') || '' }).then(res => {
+        if (!res.success) {
+          $id('resultsModalBody').innerHTML = `<div class="alert alert-danger">${escapeHtml(res.message)}</div>`;
+          return;
+        }
+
+        $id('resultsModalBody').innerHTML = `<h4 class="mb-4 text-center fw-bold" style="color:#e0eafc;">סה"כ מצביעים: <span style="color:#99f6e4;">${Number(res.total || 0)}</span></h4><div style="position: relative;"><div id="pollChart3D" style="height: 380px; width: 100%; direction: ltr;"></div></div>`;
+        Highcharts.chart('pollChart3D', {
+          chart: { type: 'pie', backgroundColor: 'transparent', options3d: { enabled: true, alpha: 45, beta: 0 } },
+          title: { text: null },
+          tooltip: { pointFormat: 'קולות: <b>{point.y}</b> ({point.percentage:.1f}%)', style: { fontFamily: 'Segoe UI', fontSize: '14px', direction: 'rtl' }, useHTML: true },
+          plotOptions: {
+            pie: {
+              innerSize: '55%',
+              depth: 40,
+              dataLabels: { enabled: true, format: '<b>{point.name}</b><br>{point.percentage:.1f}%', style: { color: '#ffffff', textOutline: 'none', fontSize: '14px' } },
+              colors: ['#38bdf8', '#0f766e', '#1d4ed8', '#f97316', '#ef4444', '#14b8a6']
+            }
+          },
+          series: [{ name: 'תוצאות', data: (res.results || []).map(item => ({ name: item.option, y: item.votes })) }],
+          credits: { enabled: false }
+        });
       });
     }
 
-    function showAuthAlert(msg) { const a = document.getElementById("auth-alert"); a.className = `alert alert-danger mt-4 mb-0 fs-6 rounded-3 border-0`; a.innerHTML = msg; a.classList.remove("d-none"); }
-    function hideAuthAlert() { document.getElementById("auth-alert").classList.add("d-none"); }
-    
+    function showAuthAlert(msg) {
+      const alertEl = $id('auth-alert');
+      alertEl.className = 'alert alert-danger mt-4 mb-0 fs-6 rounded-3 border-0';
+      alertEl.textContent = msg;
+      alertEl.classList.remove('d-none');
+    }
+
+    function hideAuthAlert() {
+      $id('auth-alert').classList.add('d-none');
+    }
+
     function handleRequestOTP() {
-      const id = document.getElementById("id-input").value.trim(); if(!id) return showAuthAlert("הקלד תעודת זהות."); hideAuthAlert();
-      setBtnLoading('btn-request-otp', true);
-      apiCall('requestOTP', { memberId: id }).then(res => { setBtnLoading('btn-request-otp', false, 'שלח קוד לאימייל'); if(res.success) { document.getElementById("step-1").classList.add("d-none"); document.getElementById("step-2").classList.remove("d-none"); } else showAuthAlert(res.message); });
+      const memberId = $id('id-input').value.trim();
+      if (!memberId) return showAuthAlert('הקלד תעודת זהות.');
+      hideAuthAlert();
+      setBtnLoading('btn-request-otp', true, 'שולח...');
+      apiCall('requestOTP', { memberId }).then(res => {
+        setBtnLoading('btn-request-otp', false, 'שלח קוד לאימייל');
+        if (!res.success) {
+          showAuthAlert(res.message);
+          return;
+        }
+        $id('step-1').classList.add('d-none');
+        $id('step-2').classList.remove('d-none');
+      });
     }
-    
+
     function handleVerifyOTP() {
-      const id = document.getElementById("id-input").value.trim(), otp = document.getElementById("otp-input").value.trim(); if(!otp) return showAuthAlert("הזן קוד."); hideAuthAlert();
-      setBtnLoading('btn-verify-otp', true);
-      apiCall('verifyOTP', { memberId: id, otp }).then(res => { setBtnLoading('btn-verify-otp', false, 'אמת'); if(res.success) { localStorage.setItem("authMemberId", id); setTimeout(() => { authModalInstance.hide(); checkLoginState(); }, 1000); } else showAuthAlert(res.message); });
+      const memberId = $id('id-input').value.trim();
+      const otp = $id('otp-input').value.trim();
+      if (!otp) return showAuthAlert('הזן קוד.');
+      hideAuthAlert();
+      setBtnLoading('btn-verify-otp', true, 'מאמת...');
+      apiCall('verifyOTP', { memberId, otp }).then(res => {
+        setBtnLoading('btn-verify-otp', false, 'אמת');
+        if (!res.success) {
+          showAuthAlert(res.message);
+          return;
+        }
+        localStorage.setItem('authMemberId', memberId);
+        setTimeout(() => {
+          authModalInstance.hide();
+          resetAuthForm();
+          checkLoginState();
+        }, 500);
+      });
     }
-    
-    function resetAuthForm() { document.getElementById("step-1").classList.remove("d-none"); document.getElementById("step-2").classList.add("d-none"); document.getElementById("otp-input").value = ""; hideAuthAlert(); }
+
+    function resetAuthForm() {
+      $id('step-1').classList.remove('d-none');
+      $id('step-2').classList.add('d-none');
+      $id('otp-input').value = '';
+      hideAuthAlert();
+    }
+
+    function renderMembersTable(list) {
+      const tbody = $id('admin-members-list');
+      if (!list.length) {
+        tbody.innerHTML = '<tr><td colspan="9" class="text-center text-muted py-4">אין חברים להצגה.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = list.map((member, index) => `
+        <tr>
+          <td class="fw-bold">${escapeHtml(member.id)}</td>
+          <td>${escapeHtml(member.firstName)}</td>
+          <td>${escapeHtml(member.lastName)}</td>
+          <td dir="ltr">${escapeHtml(member.phone || '')}</td>
+          <td>${escapeHtml(member.farm || '')}</td>
+          <td><span class="badge bg-info-subtle text-info-emphasis border">${escapeHtml(member.role || 'חבר')}</span></td>
+          <td><span class="badge bg-light text-dark border">${escapeHtml(member.permissions || 'User')}</span></td>
+          <td><span class="badge ${member.status === 'Active' ? 'bg-success' : 'bg-secondary'}">${member.status === 'Active' ? 'פעיל' : 'לא פעיל'}</span></td>
+          <td>
+            <div class="member-actions">
+              <button class="btn btn-sm btn-outline-dark rounded-pill" onclick="openMemberModal(${index})"><i class="bi bi-pencil"></i></button>
+              <button class="btn btn-sm btn-outline-danger rounded-pill" onclick='deleteMemberAction(${jsStringLiteral(member.id)})'><i class="bi bi-trash"></i></button>
+            </div>
+          </td>
+        </tr>`).join('');
+    }
 
     function loadAdminMembers() {
-      apiCall('getMembersList', { adminId: localStorage.getItem("authMemberId") }).then(list => {
-        if(!list) return; currentMembers = list; const tbody = document.getElementById("admin-members-list"); tbody.innerHTML = "";
-        list.forEach((m, i) => { tbody.innerHTML += `<tr><td class="fw-bold">${m.id}</td><td>${m.firstName}</td><td>${m.lastName}</td><td>${m.phone}</td><td>${m.farm}</td><td><span class="badge bg-info text-dark border">${m.role}</span></td><td><span class="badge bg-light text-dark border">${m.permissions}</span></td><td><span class="badge ${m.status==='Active'?'bg-success':'bg-secondary'}">${m.status==='Active'?'פעיל':'לא פעיל'}</span></td><td><button class="btn btn-sm btn-outline-dark rounded-pill" onclick="openMemberModal(${i})"><i class="bi bi-pencil"></i></button></td></tr>`; });
+      apiCall('getMembersList', { adminId: localStorage.getItem('authMemberId') }).then(list => {
+        currentMembers = Array.isArray(list) ? list : [];
+        renderMembersTable(currentMembers);
       });
     }
-    
-    function openMemberModal(idx = -1) {
-      if(idx >= 0) {
-        const m = currentMembers[idx];
-        document.getElementById("mem-orig-id").value=m.id; document.getElementById("mem-id").value=m.id; document.getElementById("mem-first-name").value=m.firstName; document.getElementById("mem-last-name").value=m.lastName;
-        document.getElementById("mem-email").value=m.email; document.getElementById("mem-phone").value=m.phone; document.getElementById("mem-farm").value=m.farm; document.getElementById("mem-owner").value=m.registeredOwner||"";
-        document.getElementById("mem-permissions").value=m.permissions||"User"; document.getElementById("mem-official-role").value=m.role||"חבר"; document.getElementById("mem-status").value=m.status||"Active"; document.getElementById("mem-notes").value=m.notes||""; document.getElementById("memberModalTitle").innerText="עריכת חבר: "+m.firstName;
+
+    function fillMemberForm(member) {
+      $id('mem-orig-id').value = member.id || '';
+      $id('mem-id').value = member.id || '';
+      $id('mem-first-name').value = member.firstName || '';
+      $id('mem-last-name').value = member.lastName || '';
+      $id('mem-email').value = member.email || '';
+      $id('mem-phone').value = member.phone || '';
+      $id('mem-farm').value = member.farm || '';
+      $id('mem-owner').value = member.registeredOwner || '';
+      $id('mem-permissions').value = member.permissions || 'User';
+      $id('mem-official-role').value = member.role || 'חבר';
+      $id('mem-status').value = member.status || 'Active';
+      $id('mem-notes').value = member.notes || '';
+    }
+
+    function clearMemberForm() {
+      fillMemberForm({ permissions: 'User', role: 'חבר', status: 'Active' });
+    }
+
+    function openMemberModal(index = -1) {
+      if (index >= 0) {
+        const member = currentMembers[index];
+        if (!member) return;
+        fillMemberForm(member);
+        $id('memberModalTitle').innerText = `עריכת חבר: ${member.firstName || ''}`;
       } else {
-        document.getElementById("mem-orig-id").value=""; document.getElementById("mem-id").value=""; document.getElementById("mem-first-name").value=""; document.getElementById("mem-last-name").value="";
-        document.getElementById("mem-email").value=""; document.getElementById("mem-phone").value=""; document.getElementById("mem-farm").value=""; document.getElementById("mem-owner").value="";
-        document.getElementById("mem-permissions").value="User"; document.getElementById("mem-official-role").value="חבר"; document.getElementById("mem-status").value="Active"; document.getElementById("mem-notes").value=""; document.getElementById("memberModalTitle").innerText="חבר חדש";
+        clearMemberForm();
+        $id('memberModalTitle').innerText = 'חבר חדש';
       }
       memberModalInstance.show();
     }
-    
-    function saveMember() {
-      const data = { originalId: document.getElementById("mem-orig-id").value, id: document.getElementById("mem-id").value.trim(), firstName: document.getElementById("mem-first-name").value.trim(), lastName: document.getElementById("mem-last-name").value.trim(), email: document.getElementById("mem-email").value.trim(), phone: document.getElementById("mem-phone").value.trim(), farm: document.getElementById("mem-farm").value.trim(), registeredOwner: document.getElementById("mem-owner").value.trim(), permissions: document.getElementById("mem-permissions").value, role: document.getElementById("mem-official-role").value, status: document.getElementById("mem-status").value, notes: document.getElementById("mem-notes").value.trim() };
-      if(!data.id || !data.firstName) return showToast("חסרים שדות חובה.", "warning");
-      setBtnLoading('btn-save-member', true);
-      apiCall('saveMemberData', { adminId: localStorage.getItem("authMemberId"), member: data, isNew: !data.originalId }).then(res => {
-        setBtnLoading('btn-save-member', false, 'שמור פרטים'); showToast(res.message, res.success?"success":"danger");
-        if(res.success) { memberModalInstance.hide(); loadAdminMembers(); }
+
+    function deleteMemberAction(memberId) {
+      if (!confirm('למחוק את החבר מספר החברים?')) return;
+      apiCall('deleteMemberData', { adminId: localStorage.getItem('authMemberId'), memberId }).then(res => {
+        showToast(res.message, res.success ? 'success' : 'danger');
+        if (res.success) loadAdminMembers();
       });
     }
-    
+
+    function saveMember() {
+      const member = {
+        originalId: $id('mem-orig-id').value,
+        id: $id('mem-id').value.trim(),
+        firstName: $id('mem-first-name').value.trim(),
+        lastName: $id('mem-last-name').value.trim(),
+        email: $id('mem-email').value.trim(),
+        phone: $id('mem-phone').value.trim(),
+        farm: $id('mem-farm').value.trim(),
+        registeredOwner: $id('mem-owner').value.trim(),
+        permissions: $id('mem-permissions').value,
+        role: $id('mem-official-role').value,
+        status: $id('mem-status').value,
+        notes: $id('mem-notes').value.trim()
+      };
+      if (!member.id || !member.firstName || !member.lastName) return showToast('חסרים שדות חובה.', 'warning');
+      setBtnLoading('btn-save-member', true, 'שומר...');
+      apiCall('saveMemberData', { adminId: localStorage.getItem('authMemberId'), member, isNew: !member.originalId }).then(res => {
+        setBtnLoading('btn-save-member', false, 'שמור פרטים');
+        showToast(res.message, res.success ? 'success' : 'danger');
+        if (res.success) {
+          memberModalInstance.hide();
+          loadAdminMembers();
+        }
+      });
+    }
+
     function exportMembersToCSV() {
       if (!currentMembers.length) return;
       let csv = ['ת"ז', 'פרטי', 'משפחה', 'אימייל', 'טלפון', 'משק', 'בעל זכויות', 'תפקיד', 'הרשאה', 'סטטוס', 'הערות'].join(',') + '\r\n';
-      currentMembers.forEach(m => { csv += [m.id, m.firstName, m.lastName, m.email, m.phone, m.farm, m.registeredOwner||'', m.role, m.permissions, m.status, m.notes||''].map(f => `"${String(f||'').replace(/"/g, '""')}"`).join(',') + '\r\n'; });
-      const l = document.createElement("a"); l.href = URL.createObjectURL(new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' })); l.download = "Members.csv"; document.body.appendChild(l); l.click(); l.remove();
-    }
-  </script>
-</body>
-</html>        document.getElementById("nav-login-btn").innerHTML = '<i class="bi bi-box-arrow-right me-1"></i> ניתוק';
-        document.getElementById("nav-login-btn").className = "btn btn-light rounded-pill px-3 shadow-sm text-primary fw-bold";
-        document.getElementById("nav-login-btn").onclick = () => { if(confirm("להתנתק?")) { localStorage.removeItem("authMemberId"); location.reload(); } };
-        apiCall('checkAdminStatus', { memberId: savedId }).then(res => { isAdminUser = res.success || res; updateUIForAdmin(); if(isAdminUser) { document.getElementById("preview-mode-wrapper").classList.remove("d-none"); loadAdminMembers(); } loadData(); });
-      } else {
-        updateUIForAdmin(); document.getElementById("nav-login-btn").onclick = () => authModalInstance.show(); loadData();
-      }
-    }
-
-    function updateUIForAdmin() { document.querySelectorAll('.admin-only-ui').forEach(el => { if(isAdminUser && !previewAsMember) el.classList.remove('d-none'); else el.classList.add('d-none'); }); }
-    function togglePreviewMode() { previewAsMember = document.getElementById("preview-mode-toggle").checked; updateUIForAdmin(); renderMessages(allMsgsData); renderPolls(allPollsData); }
-
-    function loadData() { 
-      apiCall('getAppData').then(data => { 
-        if(!data.messages) return;
-        sessionStorage.setItem('appDataCache', JSON.stringify(data));
-        allMsgsData = data.messages || []; allPollsData = data.polls || []; 
-        renderMessages(allMsgsData); renderPolls(allPollsData); checkDeepLink(); 
+      currentMembers.forEach(member => {
+        csv += [member.id, member.firstName, member.lastName, member.email, member.phone, member.farm, member.registeredOwner || '', member.role, member.permissions, member.status, member.notes || '']
+          .map(field => `"${String(field || '').replace(/"/g, '""')}"`)
+          .join(',') + '\r\n';
       });
-    }
-
-    function checkDeepLink() {
-      const params = new URLSearchParams(window.location.search); const pId = params.get('pollId');
-      if(pId && allPollsData.some(p => p.id === pId)) {
-        bootstrap.Tab.getInstance(document.getElementById('polls-tab')).show();
-        setTimeout(() => { const el = document.getElementById('poll-card-'+pId); if(el) { el.scrollIntoView({behavior: 'smooth', block: 'center'}); el.style.boxShadow = "0 0 20px rgba(59, 130, 246, 0.8)"; setTimeout(()=> el.style.boxShadow = "", 3000); } }, 800);
-      }
-    }
-
-    function renderMessages(msgs) {
-      const cont = document.getElementById("messages-container"); cont.innerHTML = "";
-      if (!msgs.length) return cont.innerHTML = "<div class='text-muted fs-4 mt-4'>אין הודעות.</div>";
-      msgs.forEach(m => {
-        let bClr = m.category==="דחוף" ? "bg-danger text-white" : (m.category==="פנאי" ? "bg-success text-success" : "bg-primary text-primary");
-        const pinBadge = m.isPinned ? `<span class="badge bg-warning text-dark border ms-2 px-3 py-2 rounded-pill"><i class="bi bi-pin-angle-fill"></i> נעוץ</span>` : '';
-        let adminToolbar = (isAdminUser && !previewAsMember) ? `<div class="admin-toolbar d-flex flex-wrap gap-2 justify-content-end mt-3"><button class="btn btn-sm btn-dark rounded-pill px-3" onclick="openEditMsg('${m.id}')"><i class="bi bi-pencil me-1"></i> ערוך</button><button class="btn btn-sm btn-danger rounded-pill px-3" onclick="deleteMsgAction('${m.id}')"><i class="bi bi-trash me-1"></i> מחק</button></div>` : '';
-        cont.innerHTML += `<div class="glass-panel mb-4 text-start p-4"><div class="d-flex justify-content-between mb-3 border-bottom pb-2"><div><span class="badge ${bClr} bg-opacity-10 border fs-6 px-3 py-2 rounded-pill">${m.category}</span>${pinBadge}</div><small class="text-secondary fw-medium fs-6 mt-1">${m.timestamp}</small></div><h3 class="card-title fw-bold text-dark mb-3 fs-4">${m.title}</h3><p class="card-text text-secondary fs-6 lh-lg" style="white-space: pre-wrap;">${m.content}</p>${adminToolbar}</div>`;
-      });
-    }
-
-    function renderPolls(polls) {
-      const cont = document.getElementById("polls-container"); cont.innerHTML = "";
-      if (!polls.length) return cont.innerHTML = "<div class='text-muted fs-4 mt-4'>אין סקרים כרגע.</div>";
-      
-      const baseUrl = window.location.origin + window.location.pathname;
-      polls.forEach(p => {
-        let opts = "";
-        p.options.forEach((o, i) => { if(o.trim()) opts += `<div class="poll-option-wrapper d-flex align-items-center" onclick="document.getElementById('opt_${p.id}_${i}').checked = true;"><input class="form-check-input mt-0" type="radio" name="poll_${p.id}" id="opt_${p.id}_${i}" value="${o.trim()}"><label class="form-check-label text-dark" for="opt_${p.id}_${i}">${o.trim()}</label></div>`; });
-        
-        const now = new Date().getTime(); let isClosed = false, timeHtml = '';
-        if(p.deadline) {
-          const dl = new Date(p.deadline).getTime();
-          if(now > dl) { isClosed = true; timeHtml = `<span class="badge bg-danger px-3 py-2 fs-6 rounded-pill mb-4"><i class="bi bi-clock-history me-1"></i> נסגר</span>`; } 
-          else { timeHtml = `<span class="badge bg-warning text-dark px-3 py-2 fs-6 rounded-pill mb-4"><i class="bi bi-stopwatch me-1"></i> פתוח להצבעה</span>`; }
-        }
-        
-        const shareUrl = `${baseUrl}?pollId=${p.id}`;
-        const waText = encodeURIComponent(`הצבעה חדשה באגודה: ${p.title}\nלחצו כאן כדי להצביע:\n${shareUrl}`);
-        const shareBtnHtml = `<a href="https://api.whatsapp.com/send?text=${waText}" target="_blank" class="btn btn-outline-success rounded-pill fw-bold w-100 mb-3 py-2"><i class="bi bi-whatsapp me-2"></i>שתף בוואטסאפ</a>`;
-        
-        let buttonsHtml = '';
-        if(!isClosed) buttonsHtml += `<button class="btn btn-primary btn-lg w-100 rounded-pill fw-bold shadow-sm py-2 mb-3" id="btn-vote-${p.id}" onclick="initiateVote('${p.id}')">שלח הצבעה</button>`;
-        if(p.visibility === 'always' || (p.visibility === 'after_close' && isClosed)) buttonsHtml += `<button class="btn btn-outline-primary btn-lg w-100 rounded-pill fw-bold shadow-sm py-2 bg-white mb-3" onclick="viewResults('${p.id}')"><i class="bi bi-bar-chart-fill me-2"></i>תוצאות</button>`;
-        
-        let adminToolbar = (isAdminUser && !previewAsMember) ? `<div class="admin-toolbar d-flex flex-wrap gap-2 justify-content-end mt-4"><button class="btn btn-sm btn-primary rounded-pill px-3" onclick="viewResults('${p.id}')"><i class="bi bi-bar-chart"></i> תוצאות מנהל</button><button class="btn btn-sm btn-dark rounded-pill px-3" onclick="openEditPoll('${p.id}')"><i class="bi bi-pencil me-1"></i> ערוך</button><button class="btn btn-sm btn-danger rounded-pill px-3" onclick="deletePollAction('${p.id}')"><i class="bi bi-trash me-1"></i> מחק</button></div>` : '';
-        
-        cont.innerHTML += `<div id="poll-card-${p.id}" class="glass-panel mb-5 text-start p-4"><h3 class="card-title text-primary fw-bold mb-3 fs-4">${p.title}</h3><p class="card-text fs-6 text-secondary mb-4">${p.description}</p><div>${timeHtml}</div><div class="mb-4 pt-2">${opts}</div>${buttonsHtml}${shareBtnHtml}${adminToolbar}</div>`;
-      });
-    }
-
-    function openEditMsg(id) {
-      const m = allMsgsData.find(x => x.id === id); if(!m) return;
-      document.getElementById("edit-msg-id").value = m.id; document.getElementById("edit-msg-title").value = m.title; document.getElementById("edit-msg-content").value = m.content; document.getElementById("edit-msg-category").value = m.category; document.getElementById("edit-msg-pinned").checked = m.isPinned;
-      if(m.validUntil) { const d = new Date(m.validUntil); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); document.getElementById("edit-msg-deadline").value = d.toISOString().slice(0,16); } else document.getElementById("edit-msg-deadline").value = "";
-      editMsgModalInstance.show();
-    }
-    function saveEditedMsg() {
-      const id = document.getElementById("edit-msg-id").value, t = document.getElementById("edit-msg-title").value.trim(), c = document.getElementById("edit-msg-content").value.trim();
-      if(!t || !c) return showToast("חסרים נתונים", "warning");
-      setBtnLoading('btn-save-edit-msg', true);
-      apiCall('updateMessage', { adminId: localStorage.getItem("authMemberId"), msgId: id, title: t, content: c, category: document.getElementById("edit-msg-category").value, validUntil: document.getElementById("edit-msg-deadline").value, isPinned: document.getElementById("edit-msg-pinned").checked }).then(r => { setBtnLoading('btn-save-edit-msg', false, 'שמור'); showToast(r.message, r.success?"success":"danger"); if(r.success) { editMsgModalInstance.hide(); loadData(); } });
-    }
-    function deleteMsgAction(id) { if(confirm("למחוק הודעה?")) apiCall('deleteMessage', {adminId: localStorage.getItem("authMemberId"), msgId: id}).then(r => { showToast(r.message, r.success?"success":"danger"); loadData(); }); }
-    
-    function openEditPoll(id) {
-      const p = allPollsData.find(x => x.id === id); if(!p) return;
-      document.getElementById("edit-poll-id").value = p.id; document.getElementById("edit-poll-title").value = p.title; document.getElementById("edit-poll-desc").value = p.description;
-      document.getElementById("edit-poll-options").value = p.options.join(", "); document.getElementById("edit-poll-secret").checked = p.isSecret; document.getElementById("edit-poll-visibility").value = p.visibility;
-      if(p.deadline) { const d = new Date(p.deadline); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); document.getElementById("edit-poll-deadline").value = d.toISOString().slice(0,16); } else document.getElementById("edit-poll-deadline").value = "";
-      editPollModalInstance.show();
-    }
-    function saveEditedPoll() {
-      const id = document.getElementById("edit-poll-id").value, t = document.getElementById("edit-poll-title").value.trim(), o = document.getElementById("edit-poll-options").value.trim();
-      if(!t || !o) return showToast("חסרים נתונים", "warning");
-      setBtnLoading('btn-save-edit-poll', true);
-      apiCall('updatePoll', { adminId: localStorage.getItem("authMemberId"), pollId: id, title: t, description: document.getElementById("edit-poll-desc").value.trim(), options: o, isSecret: document.getElementById("edit-poll-secret").checked, deadline: document.getElementById("edit-poll-deadline").value, visibility: document.getElementById("edit-poll-visibility").value }).then(r => { setBtnLoading('btn-save-edit-poll', false, 'שמור'); showToast(r.message, r.success?"success":"danger"); if(r.success) { editPollModalInstance.hide(); loadData(); } });
-    }
-    function deletePollAction(id) { if(confirm("למחוק סקר?")) apiCall('deletePoll', {adminId: localStorage.getItem("authMemberId"), pollId: id}).then(r => { showToast(r.message, r.success?"success":"danger"); loadData(); }); }
-
-    function submitNewMessage() {
-      const t = document.getElementById("new-msg-title").value.trim(), c = document.getElementById("new-msg-content").value.trim();
-      if(!t || !c) return showToast("מלא כותרת ותוכן.", "warning");
-      setBtnLoading('btn-submit-msg', true);
-      apiCall('addMessage', { adminId: localStorage.getItem("authMemberId"), title: t, content: c, category: document.getElementById("new-msg-category").value, validUntil: document.getElementById("new-msg-deadline").value, isPinned: document.getElementById("new-msg-pinned").checked }).then(r => { 
-        setBtnLoading('btn-submit-msg', false, 'פרסם'); showToast(r.message, r.success?"success":"danger"); if(r.success) { newMsgModalInstance.hide(); loadData(); } 
-      });
-    }
-    
-    function submitNewPoll() {
-      const t = document.getElementById("new-poll-title").value.trim(), o = document.getElementById("new-poll-options").value.trim();
-      if(!t || !o) return showToast("מלא נושא ואפשרויות.", "warning");
-      setBtnLoading('btn-submit-poll', true);
-      apiCall('addPoll', { adminId: localStorage.getItem("authMemberId"), title: t, description: document.getElementById("new-poll-desc").value.trim(), options: o, isSecret: document.getElementById("new-poll-secret").checked, deadline: document.getElementById("new-poll-deadline").value, visibility: document.getElementById("new-poll-visibility").value }).then(r => { 
-        setBtnLoading('btn-submit-poll', false, 'פתח הצבעה'); showToast(r.message, r.success?"success":"danger"); if(r.success) { newPollModalInstance.hide(); loadData(); } 
-      });
-    }
-
-    function initiateVote(pollId) { const opt = document.querySelector(`input[name="poll_${pollId}"]:checked`); if (!opt) return showToast("בחר אפשרות להצבעה.", "warning"); const savedId = localStorage.getItem("authMemberId"); if (!savedId) authModalInstance.show(); else { setBtnLoading(`btn-vote-${pollId}`, true); apiCall('submitVote', {pollId, memberId: savedId, voteSelection: opt.value}).then(r => { setBtnLoading(`btn-vote-${pollId}`, false, 'שלח הצבעה'); showToast(r.message, r.success?"success":"danger"); }); } }
-    
-    function viewResults(pollId) {
-      document.getElementById("resultsModalBody").innerHTML = '<div class="text-center py-5"><div class="spinner-border text-light"></div></div>';
-      resultsModalInstance.show();
-      apiCall('getPollResults', { pollId, memberId: localStorage.getItem("authMemberId") || "" }).then(res => {
-        if(!res.success) return document.getElementById("resultsModalBody").innerHTML = `<div class="alert alert-danger">${res.message}</div>`;
-        document.getElementById("resultsModalBody").innerHTML = `<h4 class="mb-4 text-center fw-bold" style="color:#e0eafc;">סה"כ מצביעים: <span style="color:#00ff9d;">${res.total}</span></h4><div style="position: relative;"><div id="pollChart3D" style="height: 380px; width: 100%; direction: ltr;"></div></div>`;
-        Highcharts.chart('pollChart3D', { chart: { type: 'pie', backgroundColor: 'transparent', options3d: { enabled: true, alpha: 45, beta: 0 } }, title: { text: null }, tooltip: { pointFormat: 'קולות: <b>{point.y}</b> ({point.percentage:.1f}%)', style: { fontFamily: 'Segoe UI', fontSize: '14px', direction: 'rtl' }, useHTML: true }, plotOptions: { pie: { innerSize: '55%', depth: 40, dataLabels: { enabled: true, format: '<b>{point.name}</b><br>{point.percentage:.1f}%', style: { color: '#ffffff', textOutline: 'none', fontSize: '14px' } }, colors: ['#00f2fe', '#f093fb', '#00ff9d', '#ff0844', '#f5576c'] } }, series: [{ name: 'תוצאות', data: res.results.map(r => ({ name: r.option, y: r.votes })) }], credits: { enabled: false } });
-      });
-    }
-
-    function showAuthAlert(msg) { const a = document.getElementById("auth-alert"); a.className = `alert alert-danger mt-4 mb-0 fs-6 rounded-3 border-0`; a.innerHTML = msg; a.classList.remove("d-none"); }
-    function hideAuthAlert() { document.getElementById("auth-alert").classList.add("d-none"); }
-    
-    function handleRequestOTP() {
-      const id = document.getElementById("id-input").value.trim(); if(!id) return showAuthAlert("הקלד תעודת זהות."); hideAuthAlert();
-      setBtnLoading('btn-request-otp', true);
-      apiCall('requestOTP', { memberId: id }).then(res => { setBtnLoading('btn-request-otp', false, 'שלח קוד לאימייל'); if(res.success) { document.getElementById("step-1").classList.add("d-none"); document.getElementById("step-2").classList.remove("d-none"); } else showAuthAlert(res.message); });
-    }
-    
-    function handleVerifyOTP() {
-      const id = document.getElementById("id-input").value.trim(), otp = document.getElementById("otp-input").value.trim(); if(!otp) return showAuthAlert("הזן קוד."); hideAuthAlert();
-      setBtnLoading('btn-verify-otp', true);
-      apiCall('verifyOTP', { memberId: id, otp }).then(res => { setBtnLoading('btn-verify-otp', false, 'אמת'); if(res.success) { localStorage.setItem("authMemberId", id); setTimeout(() => { authModalInstance.hide(); checkLoginState(); }, 1000); } else showAuthAlert(res.message); });
-    }
-    
-    function resetAuthForm() { document.getElementById("step-1").classList.remove("d-none"); document.getElementById("step-2").classList.add("d-none"); document.getElementById("otp-input").value = ""; hideAuthAlert(); }
-
-    function loadAdminMembers() {
-      apiCall('getMembersList', { adminId: localStorage.getItem("authMemberId") }).then(list => {
-        if(!list) return; currentMembers = list; const tbody = document.getElementById("admin-members-list"); tbody.innerHTML = "";
-        list.forEach((m, i) => { tbody.innerHTML += `<tr><td class="fw-bold">${m.id}</td><td>${m.firstName}</td><td>${m.lastName}</td><td>${m.phone}</td><td>${m.farm}</td><td><span class="badge bg-info text-dark border">${m.role}</span></td><td><span class="badge bg-light text-dark border">${m.permissions}</span></td><td><span class="badge ${m.status==='Active'?'bg-success':'bg-secondary'}">${m.status==='Active'?'פעיל':'לא פעיל'}</span></td><td><button class="btn btn-sm btn-outline-dark rounded-pill" onclick="openMemberModal(${i})"><i class="bi bi-pencil"></i></button></td></tr>`; });
-      });
-    }
-    
-    function openMemberModal(idx = -1) {
-      if(idx >= 0) {
-        const m = currentMembers[idx];
-        document.getElementById("mem-orig-id").value=m.id; document.getElementById("mem-id").value=m.id; document.getElementById("mem-first-name").value=m.firstName; document.getElementById("mem-last-name").value=m.lastName;
-        document.getElementById("mem-email").value=m.email; document.getElementById("mem-phone").value=m.phone; document.getElementById("mem-farm").value=m.farm; document.getElementById("mem-owner").value=m.registeredOwner||"";
-        document.getElementById("mem-permissions").value=m.permissions||"User"; document.getElementById("mem-official-role").value=m.role||"חבר"; document.getElementById("mem-status").value=m.status||"Active"; document.getElementById("mem-notes").value=m.notes||""; document.getElementById("memberModalTitle").innerText="עריכת חבר: "+m.firstName;
-      } else {
-        document.getElementById("mem-orig-id").value=""; document.getElementById("mem-id").value=""; document.getElementById("mem-first-name").value=""; document.getElementById("mem-last-name").value="";
-        document.getElementById("mem-email").value=""; document.getElementById("mem-phone").value=""; document.getElementById("mem-farm").value=""; document.getElementById("mem-owner").value="";
-        document.getElementById("mem-permissions").value="User"; document.getElementById("mem-official-role").value="חבר"; document.getElementById("mem-status").value="Active"; document.getElementById("mem-notes").value=""; document.getElementById("memberModalTitle").innerText="חבר חדש";
-      }
-      memberModalInstance.show();
-    }
-    
-    function saveMember() {
-      const data = { originalId: document.getElementById("mem-orig-id").value, id: document.getElementById("mem-id").value.trim(), firstName: document.getElementById("mem-first-name").value.trim(), lastName: document.getElementById("mem-last-name").value.trim(), email: document.getElementById("mem-email").value.trim(), phone: document.getElementById("mem-phone").value.trim(), farm: document.getElementById("mem-farm").value.trim(), registeredOwner: document.getElementById("mem-owner").value.trim(), permissions: document.getElementById("mem-permissions").value, role: document.getElementById("mem-official-role").value, status: document.getElementById("mem-status").value, notes: document.getElementById("mem-notes").value.trim() };
-      if(!data.id || !data.firstName) return showToast("חסרים שדות חובה.", "warning");
-      setBtnLoading('btn-save-member', true);
-      apiCall('saveMemberData', { adminId: localStorage.getItem("authMemberId"), member: data, isNew: !data.originalId }).then(res => {
-        setBtnLoading('btn-save-member', false, 'שמור פרטים'); showToast(res.message, res.success?"success":"danger");
-        if(res.success) { memberModalInstance.hide(); loadAdminMembers(); }
-      });
-    }
-    
-    function exportMembersToCSV() {
-      if (!currentMembers.length) return;
-      let csv = ['ת"ז', 'פרטי', 'משפחה', 'אימייל', 'טלפון', 'משק', 'בעל זכויות', 'תפקיד', 'הרשאה', 'סטטוס', 'הערות'].join(',') + '\r\n';
-      currentMembers.forEach(m => { csv += [m.id, m.firstName, m.lastName, m.email, m.phone, m.farm, m.registeredOwner||'', m.role, m.permissions, m.status, m.notes||''].map(f => `"${String(f||'').replace(/"/g, '""')}"`).join(',') + '\r\n'; });
-      const l = document.createElement("a"); l.href = URL.createObjectURL(new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' })); l.download = "Members.csv"; document.body.appendChild(l); l.click(); l.remove();
-    }
-  </script>
-</body>
-</html>        <div id="polls-container" class="text-center mt-5"><div class="spinner-border text-primary"></div></div>
-      </div>
-      <div class="tab-pane fade admin-only-ui" id="view-members">
-        <div class="card card-modern border-0"><div class="card-body p-3 p-md-4"><div class="d-flex justify-content-between align-items-center mb-4"><h4 class="card-title text-dark fw-bold mb-0 fs-5"><i class="bi bi-people me-2"></i>חברים</h4><div class="d-flex gap-2"><button class="btn btn-success rounded-pill" onclick="exportMembersToCSV()"><i class="bi bi-file-earmark-excel"></i></button><button class="btn btn-dark rounded-pill" onclick="openMemberModal()"><i class="bi bi-person-plus"></i></button></div></div><div class="table-responsive"><table class="table table-hover align-middle small"><thead><tr><th>ת"ז</th><th>שם</th><th>משפחה</th><th>טלפון</th><th>משק</th><th>תפקיד</th><th>הרשאה</th><th>סטטוס</th><th></th></tr></thead><tbody id="admin-members-list"></tbody></table></div></div></div>
-      </div>
-      <div class="tab-pane fade admin-only-ui" id="view-settings">
-        <div class="card card-modern border-0"><div class="card-body p-4"><h4 class="card-title text-dark fw-bold mb-4 fs-5"><i class="bi bi-sliders me-2"></i>הגדרות</h4><div class="mb-3"><label class="form-label fw-bold">כותרת המערכת</label><input type="text" id="admin-setting-title" class="form-control form-control-lg"></div><div class="mb-4"><label class="form-label fw-bold">קישור לוגו</label><input type="url" id="admin-setting-logo" class="form-control form-control-lg text-start" dir="ltr"></div><button class="btn btn-dark btn-lg w-100 rounded-pill fw-bold" onclick="saveSettings()" id="btn-save-settings"><i class="bi bi-save me-2"></i>שמור הגדרות</button></div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index: 1060;"><div id="sysToast" class="toast align-items-center text-bg-primary border-0 rounded-4 shadow-lg"><div class="d-flex p-2"><div class="toast-body fs-6 fw-medium" id="sysToastMsg"></div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div></div></div>
-
-  <!-- Modals -->
-  <div class="modal fade" id="authModal" tabindex="-1" data-bs-backdrop="static"><div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow-lg rounded-4"><div class="modal-header bg-gradient-primary text-white border-0 rounded-top-4 py-3"><h5 class="modal-title fw-bold"><i class="bi bi-shield-lock me-2"></i>אימות</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body p-4"><div id="step-1"><input type="tel" id="id-input" class="form-control form-control-lg mb-4 text-center fs-4 tracking-wide" placeholder="תעודת זהות"><button class="btn btn-primary btn-lg w-100 rounded-pill fw-bold" id="btn-request-otp" onclick="handleRequestOTP()">שלח קוד לאימייל</button></div><div id="step-2" class="d-none"><input type="tel" id="otp-input" class="form-control form-control-lg mb-4 text-center fs-3 tracking-wide text-primary fw-bold" placeholder="- - - - - -"><button class="btn btn-success btn-lg w-100 rounded-pill fw-bold mb-3" id="btn-verify-otp" onclick="handleVerifyOTP()">אמת</button><button class="btn btn-light btn-lg w-100 rounded-pill text-secondary" onclick="resetAuthForm()">חזור</button></div><div id="auth-alert" class="alert d-none mt-4 mb-0 fs-6 rounded-3"></div></div></div></div></div>
-  <div class="modal fade" id="newMsgModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content rounded-4 border-0 shadow"><div class="modal-header bg-primary text-white rounded-top-4 py-3"><h5 class="modal-title fw-bold"><i class="bi bi-plus-circle me-2"></i>הודעה חדשה</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body p-4"><input type="text" id="new-msg-title" class="form-control mb-3" placeholder="כותרת"><textarea id="new-msg-content" class="form-control mb-3" rows="3" placeholder="תוכן..."></textarea><div class="row g-2 mb-3"><div class="col-12 col-md-6"><select id="new-msg-category" class="form-select"><option value="כללי">כללי</option><option value="דחוף">דחוף</option><option value="פנאי">פנאי</option></select></div><div class="col-12 col-md-6"><input type="datetime-local" id="new-msg-deadline" class="form-control"></div></div><div class="form-check form-switch mb-4 p-2 bg-light rounded"><input class="form-check-input ms-3" type="checkbox" id="new-msg-pinned"><label class="form-check-label fw-bold text-danger" for="new-msg-pinned">נעץ הודעה</label></div><button class="btn btn-primary w-100 rounded-pill fw-bold" onclick="submitNewMessage()" id="btn-submit-msg">פרסם</button></div></div></div></div>
-  <div class="modal fade" id="newPollModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content rounded-4 border-0 shadow"><div class="modal-header bg-success text-white rounded-top-4 py-3"><h5 class="modal-title fw-bold"><i class="bi bi-plus-circle me-2"></i>סקר חדש</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body p-4"><input type="text" id="new-poll-title" class="form-control mb-3" placeholder="נושא"><textarea id="new-poll-desc" class="form-control mb-3" rows="2" placeholder="תיאור..."></textarea><input type="text" id="new-poll-options" class="form-control mb-3" placeholder="אפשרויות (הפרד בפסיק)"><div class="row g-2 mb-3"><div class="col-12 col-md-6"><label class="form-label fw-bold small">מועד סגירה:</label><input type="datetime-local" id="new-poll-deadline" class="form-control"></div><div class="col-12 col-md-6"><label class="form-label fw-bold small">חשיפה:</label><select id="new-poll-visibility" class="form-select"><option value="always">גלויות תמיד</option><option value="after_close">לאחר סגירה</option></select></div></div><div class="form-check form-switch mb-4 p-2 bg-light rounded"><input class="form-check-input ms-3" type="checkbox" id="new-poll-secret" checked><label class="form-check-label fw-medium" for="new-poll-secret">חשאית</label></div><button class="btn btn-success w-100 rounded-pill fw-bold" onclick="submitNewPoll()" id="btn-submit-poll">פתח הצבעה</button></div></div></div></div>
-  <div class="modal fade" id="resultsModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content dark-glass border-0 shadow-lg"><div class="modal-header border-bottom border-secondary py-3"><h5 class="modal-title fw-bold"><i class="bi bi-bar-chart-fill me-2"></i>תוצאות ההצבעה</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body p-4" id="resultsModalBody"><div class="text-center"><div class="spinner-border text-light"></div></div></div></div></div></div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://code.highcharts.com/highcharts.js"></script>
-  <script src="https://code.highcharts.com/highcharts-3d.js"></script>
-  
-  <script>
-    // ⬇️⬇️⬇️ החלף את הכתובת הבאה בכתובת המלאה מגוגל Apps Script ⬇️⬇️⬇️
-    const API_URL = "https://script.google.com/macros/s/AKfycbzogIrpMjnFr0adkt1O0ATUL1adqA82V7KXGuE5f46pDkD36-CqgH5kj696ZQeIVUcoOw/exec";
-    // ⬆️⬆️⬆️
-    
-    let authModalInstance, memberModalInstance, resultsModalInstance, newMsgModalInstance, newPollModalInstance;
-    let currentMembers=[], allPollsData=[], allMsgsData=[], isAdminUser=false, previewAsMember=false;
-
-    async function apiCall(action, payload = {}) {
-      try {
-        const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action, payload }) });
-        return await response.json();
-      } catch (e) { console.error(e); return { success: false, message: "שגיאת תקשורת עם השרת" }; }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      authModalInstance = new bootstrap.Modal(document.getElementById('authModal'));
-      resultsModalInstance = new bootstrap.Modal(document.getElementById('resultsModal'));
-      newMsgModalInstance = new bootstrap.Modal(document.getElementById('newMsgModal'));
-      newPollModalInstance = new bootstrap.Modal(document.getElementById('newPollModal'));
-      
-      // Load from Local Cache instantly for fast UI feel
-      const cachedData = sessionStorage.getItem('appDataCache');
-      if (cachedData) {
-        const parsed = JSON.parse(cachedData);
-        allMsgsData = parsed.messages || []; allPollsData = parsed.polls || [];
-        renderMessages(allMsgsData); renderPolls(allPollsData);
-      }
-
-      loadAppSettings(); checkLoginState();
-    });
-
-    function showToast(msg, type='primary') { const t = document.getElementById('sysToast'); t.className = `toast align-items-center text-bg-${type} border-0 rounded-4 shadow-lg`; document.getElementById('sysToastMsg').innerHTML = msg; new bootstrap.Toast(t, { delay: 3500 }).show(); }
-    function setBtnLoading(btnId, isLoading, text) { const btn = document.getElementById(btnId); if(btn) { btn.disabled = isLoading; btn.innerHTML = isLoading ? `<span class="spinner-border spinner-border-sm me-2"></span>מעבד...` : text; } }
-
-    function loadAppSettings() {
-      apiCall('getAppSettings').then(settings => {
-        document.title = settings.title || 'אגודה'; document.getElementById('admin-setting-title').value = settings.title || '';
-        const logoEl = document.getElementById('app-logo');
-        if(settings.logo) { logoEl.src = settings.logo; logoEl.classList.remove('d-none'); document.getElementById('app-title-display').innerHTML = settings.title; } else { logoEl.classList.add('d-none'); document.getElementById('app-title-display').innerHTML = '<i class="bi bi-houses me-2"></i>' + settings.title; }
-        document.getElementById('admin-setting-logo').value = settings.logo || '';
-      });
-    }
-
-    function saveSettings() {
-      const t = document.getElementById('admin-setting-title').value.trim(), l = document.getElementById('admin-setting-logo').value.trim();
-      setBtnLoading('btn-save-settings', true);
-      apiCall('saveAppSettings', { adminId: localStorage.getItem("authMemberId"), title: t, logo: l }).then(res => { setBtnLoading('btn-save-settings', false, '<i class="bi bi-save me-2"></i>שמור הגדרות'); showToast(res.message, res.success ? "success" : "danger"); if(res.success) loadAppSettings(); });
-    }
-
-    function checkLoginState() {
-      const savedId = localStorage.getItem("authMemberId");
-      if (savedId) {
-        document.getElementById("nav-login-btn").innerHTML = '<i class="bi bi-box-arrow-right me-1"></i> ניתוק';
-        document.getElementById("nav-login-btn").className = "btn btn-light rounded-pill px-3 shadow-sm text-primary fw-bold";
-        document.getElementById("nav-login-btn").onclick = () => { if(confirm("להתנתק?")) { localStorage.removeItem("authMemberId"); location.reload(); } };
-        apiCall('checkAdminStatus', { memberId: savedId }).then(res => { isAdminUser = res.success || res; updateUIForAdmin(); if(isAdminUser) { document.getElementById("preview-mode-wrapper").classList.remove("d-none"); loadAdminMembers(); } loadData(); });
-      } else {
-        updateUIForAdmin(); document.getElementById("nav-login-btn").onclick = () => authModalInstance.show(); loadData();
-      }
-    }
-
-    function updateUIForAdmin() { document.querySelectorAll('.admin-only-ui').forEach(el => { if(isAdminUser && !previewAsMember) el.classList.remove('d-none'); else el.classList.add('d-none'); }); }
-    function togglePreviewMode() { previewAsMember = document.getElementById("preview-mode-toggle").checked; updateUIForAdmin(); renderMessages(allMsgsData); renderPolls(allPollsData); }
-
-    function loadData() { 
-      apiCall('getAppData').then(data => { 
-        sessionStorage.setItem('appDataCache', JSON.stringify(data));
-        allMsgsData = data.messages || []; allPollsData = data.polls || []; 
-        renderMessages(allMsgsData); renderPolls(allPollsData); checkDeepLink(); 
-      });
-    }
-
-    function checkDeepLink() {
-      const params = new URLSearchParams(window.location.search); const pId = params.get('pollId');
-      if(pId && allPollsData.some(p => p.id === pId)) {
-        bootstrap.Tab.getInstance(document.getElementById('polls-tab')).show();
-        setTimeout(() => { const el = document.getElementById('poll-card-'+pId); if(el) { el.scrollIntoView({behavior: 'smooth', block: 'center'}); el.style.boxShadow = "0 0 20px rgba(59, 130, 246, 0.8)"; setTimeout(()=> el.style.boxShadow = "", 3000); } }, 800);
-      }
-    }
-
-    function renderMessages(msgs) {
-      const cont = document.getElementById("messages-container"); cont.innerHTML = "";
-      if (!msgs.length) return cont.innerHTML = "<div class='text-muted fs-4 mt-4'>אין הודעות.</div>";
-      msgs.forEach(m => {
-        let bClr = m.category==="דחוף" ? "bg-danger text-white" : (m.category==="פנאי" ? "bg-success text-success" : "bg-primary text-primary");
-        const pinBadge = m.isPinned ? `<span class="badge bg-warning text-dark border ms-2 px-3 py-2 rounded-pill"><i class="bi bi-pin-angle-fill"></i> נעוץ</span>` : '';
-        let adminToolbar = (isAdminUser && !previewAsMember) ? `<div class="admin-toolbar d-flex flex-wrap gap-2 justify-content-end mt-3"><button class="btn btn-sm btn-dark rounded-pill px-3" onclick="openEditMsg('${m.id}')"><i class="bi bi-pencil me-1"></i> ערוך</button><button class="btn btn-sm btn-danger rounded-pill px-3" onclick="deleteMsgAction('${m.id}')"><i class="bi bi-trash me-1"></i> מחק</button></div>` : '';
-        cont.innerHTML += `<div class="glass-panel mb-4 text-start p-4"><div class="d-flex justify-content-between mb-3 border-bottom pb-2"><div><span class="badge ${bClr} bg-opacity-10 border fs-6 px-3 py-2 rounded-pill">${m.category}</span>${pinBadge}</div><small class="text-secondary fw-medium fs-6 mt-1">${m.timestamp}</small></div><h3 class="card-title fw-bold text-dark mb-3 fs-4">${m.title}</h3><p class="card-text text-secondary fs-6 lh-lg" style="white-space: pre-wrap;">${m.content}</p>${adminToolbar}</div>`;
-      });
-    }
-
-    function renderPolls(polls) {
-      const cont = document.getElementById("polls-container"); cont.innerHTML = "";
-      if (!polls.length) return cont.innerHTML = "<div class='text-muted fs-4 mt-4'>אין סקרים כרגע.</div>";
-      
-      const baseUrl = window.location.origin + window.location.pathname;
-      polls.forEach(p => {
-        let opts = "";
-        p.options.forEach((o, i) => { if(o.trim()) opts += `<div class="poll-option-wrapper d-flex align-items-center" onclick="document.getElementById('opt_${p.id}_${i}').checked = true;"><input class="form-check-input mt-0" type="radio" name="poll_${p.id}" id="opt_${p.id}_${i}" value="${o.trim()}"><label class="form-check-label text-dark" for="opt_${p.id}_${i}">${o.trim()}</label></div>`; });
-        
-        const now = new Date().getTime(); let isClosed = false, timeHtml = '';
-        if(p.deadline) {
-          const dl = new Date(p.deadline).getTime();
-          if(now > dl) { isClosed = true; timeHtml = `<span class="badge bg-danger px-3 py-2 fs-6 rounded-pill mb-4"><i class="bi bi-clock-history me-1"></i> נסגר</span>`; } 
-          else { timeHtml = `<span class="badge bg-warning text-dark px-3 py-2 fs-6 rounded-pill mb-4"><i class="bi bi-stopwatch me-1"></i> פתוח להצבעה</span>`; }
-        }
-        
-        const shareUrl = `${baseUrl}?pollId=${p.id}`;
-        const waText = encodeURIComponent(`הצבעה חדשה באגודה: ${p.title}\nלחצו כאן כדי להצביע:\n${shareUrl}`);
-        const shareBtnHtml = `<a href="https://api.whatsapp.com/send?text=${waText}" target="_blank" class="btn btn-outline-success rounded-pill fw-bold w-100 mb-3 py-2"><i class="bi bi-whatsapp me-2"></i>שתף בוואטסאפ</a>`;
-        
-        let buttonsHtml = '';
-        if(!isClosed) buttonsHtml += `<button class="btn btn-primary btn-lg w-100 rounded-pill fw-bold shadow-sm py-2 mb-3" id="btn-vote-${p.id}" onclick="initiateVote('${p.id}')">שלח הצבעה</button>`;
-        if(p.visibility === 'always' || (p.visibility === 'after_close' && isClosed)) buttonsHtml += `<button class="btn btn-outline-primary btn-lg w-100 rounded-pill fw-bold shadow-sm py-2 bg-white mb-3" onclick="viewResults('${p.id}')"><i class="bi bi-bar-chart-fill me-2"></i>תוצאות</button>`;
-        
-        let adminToolbar = (isAdminUser && !previewAsMember) ? `<div class="admin-toolbar d-flex flex-wrap gap-2 justify-content-end mt-4"><button class="btn btn-sm btn-primary rounded-pill px-3" onclick="viewResults('${p.id}')"><i class="bi bi-bar-chart"></i> תוצאות מנהל</button><button class="btn btn-sm btn-dark rounded-pill px-3" onclick="openEditPoll('${p.id}')"><i class="bi bi-pencil me-1"></i> ערוך</button><button class="btn btn-sm btn-danger rounded-pill px-3" onclick="deletePollAction('${p.id}')"><i class="bi bi-trash me-1"></i> מחק</button></div>` : '';
-        
-        cont.innerHTML += `<div id="poll-card-${p.id}" class="glass-panel mb-5 text-start p-4"><h3 class="card-title text-primary fw-bold mb-3 fs-4">${p.title}</h3><p class="card-text fs-6 text-secondary mb-4">${p.description}</p><div>${timeHtml}</div><div class="mb-4 pt-2">${opts}</div>${buttonsHtml}${shareBtnHtml}${adminToolbar}</div>`;
-      });
-    }
-
-    function openEditMsg(id) { alert("יש לערוך הודעה דרך גוגל שיטס בשלב זה (פונקציונליות העריכה מותאמת בגרסה המלאה)."); }
-    function deleteMsgAction(id) { if(confirm("למחוק הודעה?")) apiCall('deleteMessage', {adminId: localStorage.getItem("authMemberId"), msgId: id}).then(r => { showToast(r.message, r.success?"success":"danger"); loadData(); }); }
-    function openEditPoll(id) { alert("יש לערוך סקר דרך גוגל שיטס בשלב זה."); }
-    function deletePollAction(id) { if(confirm("למחוק סקר?")) apiCall('deletePoll', {adminId: localStorage.getItem("authMemberId"), pollId: id}).then(r => { showToast(r.message, r.success?"success":"danger"); loadData(); }); }
-
-    function submitNewMessage() {
-      const t = document.getElementById("new-msg-title").value.trim(), c = document.getElementById("new-msg-content").value.trim();
-      if(!t || !c) return showToast("מלא כותרת ותוכן.", "warning");
-      setBtnLoading('btn-submit-msg', true);
-      apiCall('addMessage', { adminId: localStorage.getItem("authMemberId"), title: t, content: c, category: document.getElementById("new-msg-category").value, validUntil: document.getElementById("new-msg-deadline").value, isPinned: document.getElementById("new-msg-pinned").checked }).then(r => { 
-        setBtnLoading('btn-submit-msg', false, 'פרסם'); showToast(r.message, r.success?"success":"danger"); if(r.success) { newMsgModalInstance.hide(); loadData(); } 
-      });
-    }
-    
-    function submitNewPoll() {
-      const t = document.getElementById("new-poll-title").value.trim(), o = document.getElementById("new-poll-options").value.trim();
-      if(!t || !o) return showToast("מלא נושא ואפשרויות.", "warning");
-      setBtnLoading('btn-submit-poll', true);
-      apiCall('addPoll', { adminId: localStorage.getItem("authMemberId"), title: t, description: document.getElementById("new-poll-desc").value.trim(), options: o, isSecret: document.getElementById("new-poll-secret").checked, deadline: document.getElementById("new-poll-deadline").value, visibility: document.getElementById("new-poll-visibility").value }).then(r => { 
-        setBtnLoading('btn-submit-poll', false, 'פתח הצבעה'); showToast(r.message, r.success?"success":"danger"); if(r.success) { newPollModalInstance.hide(); loadData(); } 
-      });
-    }
-
-    function initiateVote(pollId) { const opt = document.querySelector(`input[name="poll_${pollId}"]:checked`); if (!opt) return showToast("בחר אפשרות להצבעה.", "warning"); const savedId = localStorage.getItem("authMemberId"); if (!savedId) authModalInstance.show(); else { setBtnLoading(`btn-vote-${pollId}`, true); apiCall('submitVote', {pollId, memberId: savedId, voteSelection: opt.value}).then(r => { setBtnLoading(`btn-vote-${pollId}`, false, 'שלח הצבעה'); showToast(r.message, r.success?"success":"danger"); }); } }
-    
-    function viewResults(pollId) {
-      document.getElementById("resultsModalBody").innerHTML = '<div class="text-center py-5"><div class="spinner-border text-light"></div></div>';
-      resultsModalInstance.show();
-      apiCall('getPollResults', { pollId, memberId: localStorage.getItem("authMemberId") || "" }).then(res => {
-        if(!res.success) return document.getElementById("resultsModalBody").innerHTML = `<div class="alert alert-danger">${res.message}</div>`;
-        document.getElementById("resultsModalBody").innerHTML = `<h4 class="mb-4 text-center fw-bold" style="color:#e0eafc;">סה"כ מצביעים: <span style="color:#00ff9d;">${res.total}</span></h4><div style="position: relative;"><div id="pollChart3D" style="height: 380px; width: 100%; direction: ltr;"></div></div>`;
-        Highcharts.chart('pollChart3D', { chart: { type: 'pie', backgroundColor: 'transparent', options3d: { enabled: true, alpha: 45, beta: 0 } }, title: { text: null }, tooltip: { pointFormat: 'קולות: <b>{point.y}</b> ({point.percentage:.1f}%)', style: { fontFamily: 'Segoe UI', fontSize: '14px', direction: 'rtl' }, useHTML: true }, plotOptions: { pie: { innerSize: '55%', depth: 40, dataLabels: { enabled: true, format: '<b>{point.name}</b><br>{point.percentage:.1f}%', style: { color: '#ffffff', textOutline: 'none', fontSize: '14px' } }, colors: ['#00f2fe', '#f093fb', '#00ff9d', '#ff0844', '#f5576c'] } }, series: [{ name: 'תוצאות', data: res.results.map(r => ({ name: r.option, y: r.votes })) }], credits: { enabled: false } });
-      });
-    }
-
-    function showAuthAlert(msg) { const a = document.getElementById("auth-alert"); a.className = `alert alert-danger mt-4 mb-0 fs-6 rounded-3 border-0`; a.innerHTML = msg; a.classList.remove("d-none"); }
-    function hideAuthAlert() { document.getElementById("auth-alert").classList.add("d-none"); }
-    
-    function handleRequestOTP() {
-      const id = document.getElementById("id-input").value.trim(); if(!id) return showAuthAlert("הקלד תעודת זהות."); hideAuthAlert();
-      setBtnLoading('btn-request-otp', true);
-      apiCall('requestOTP', { memberId: id }).then(res => { setBtnLoading('btn-request-otp', false, 'שלח קוד לאימייל'); if(res.success) { document.getElementById("step-1").classList.add("d-none"); document.getElementById("step-2").classList.remove("d-none"); } else showAuthAlert(res.message); });
-    }
-    
-    function handleVerifyOTP() {
-      const id = document.getElementById("id-input").value.trim(), otp = document.getElementById("otp-input").value.trim(); if(!otp) return showAuthAlert("הזן קוד."); hideAuthAlert();
-      setBtnLoading('btn-verify-otp', true);
-      apiCall('verifyOTP', { memberId: id, otp }).then(res => { setBtnLoading('btn-verify-otp', false, 'אמת'); if(res.success) { localStorage.setItem("authMemberId", id); setTimeout(() => { authModalInstance.hide(); checkLoginState(); }, 1000); } else showAuthAlert(res.message); });
-    }
-  </script>
-</body>
-</html>
-      <div class="d-flex align-items-center gap-3">
-        <div class="form-check form-switch text-white d-none" id="preview-mode-wrapper">
-          <input class="form-check-input mt-1" type="checkbox" id="preview-mode-toggle" onchange="togglePreviewMode()">
-          <label class="form-check-label ms-2 fw-medium" for="preview-mode-toggle"><i class="bi bi-eye"></i> חבר</label>
-        </div>
-        <button class="btn btn-outline-light btn-lg rounded-pill px-4 shadow-sm" id="nav-login-btn" onclick="authModalInstance.show()"><i class="bi bi-person-circle me-1"></i> התחברות</button>
-      </div>
-    </div>
-  </nav>
-
-  <div class="container pb-5 max-w-800">
-    <ul class="nav nav-pills nav-scrollable mb-4 glass-panel p-2" id="mainTabs" role="tablist">
-      <li class="nav-item"><button class="nav-link active fs-5 py-2 px-4 rounded-pill fw-bold" id="messages-tab" data-bs-toggle="pill" data-bs-target="#view-messages"><i class="bi bi-megaphone fs-5 me-2"></i>הודעות</button></li>
-      <li class="nav-item"><button class="nav-link fs-5 py-2 px-4 rounded-pill fw-bold" id="polls-tab" data-bs-toggle="pill" data-bs-target="#view-polls"><i class="bi bi-ui-checks fs-5 me-2"></i>הצבעות</button></li>
-      <li class="nav-item d-none admin-only-ui"><button class="nav-link text-primary fs-5 py-2 px-4 rounded-pill fw-bold" id="members-tab" data-bs-toggle="pill" data-bs-target="#view-members"><i class="bi bi-people fs-5 me-2"></i>חברים</button></li>
-      <li class="nav-item d-none admin-only-ui"><button class="nav-link text-secondary fs-5 py-2 px-4 rounded-pill fw-bold" id="settings-tab" data-bs-toggle="pill" data-bs-target="#view-settings"><i class="bi bi-gear fs-5 me-2"></i>הגדרות</button></li>
-    </ul>
-
-    <div class="tab-content">
-      <div class="tab-pane fade show active" id="view-messages">
-        <div class="d-none admin-only-ui mb-4 text-start"><button class="btn btn-primary rounded-pill fw-bold shadow-sm px-4 py-2" onclick="newMsgModalInstance.show()"><i class="bi bi-plus-lg me-2"></i>הודעה חדשה</button></div>
-        <div id="messages-container" class="text-center mt-5"><div class="spinner-border text-primary"></div></div>
-      </div>
-      <div class="tab-pane fade" id="view-polls">
-        <div class="d-none admin-only-ui mb-4 text-start"><button class="btn btn-success rounded-pill fw-bold shadow-sm px-4 py-2" onclick="newPollModalInstance.show()"><i class="bi bi-plus-lg me-2"></i>סקר חדש</button></div>
-        <div id="polls-container" class="text-center mt-5"><div class="spinner-border text-primary"></div></div>
-      </div>
-      <div class="tab-pane fade admin-only-ui" id="view-members">
-        <div class="card card-modern border-0"><div class="card-body p-3 p-md-4"><div class="d-flex justify-content-between align-items-center mb-4"><h4 class="card-title text-dark fw-bold mb-0"><i class="bi bi-people me-2"></i>חברים</h4><div class="d-flex gap-2"><button class="btn btn-success rounded-pill" onclick="exportMembersToCSV()"><i class="bi bi-file-earmark-excel"></i></button><button class="btn btn-dark rounded-pill" onclick="openMemberModal()"><i class="bi bi-person-plus"></i></button></div></div><div class="table-responsive"><table class="table table-hover align-middle"><thead><tr><th>ת"ז</th><th>שם</th><th>משפחה</th><th>טלפון</th><th>משק</th><th>תפקיד</th><th>הרשאה</th><th>סטטוס</th><th></th></tr></thead><tbody id="admin-members-list"></tbody></table></div></div></div>
-      </div>
-      <div class="tab-pane fade admin-only-ui" id="view-settings">
-        <div class="card card-modern border-0"><div class="card-body p-4"><h4 class="card-title text-dark fw-bold mb-4"><i class="bi bi-sliders me-2"></i>הגדרות</h4><div class="mb-3"><label class="form-label fw-bold">כותרת המערכת</label><input type="text" id="admin-setting-title" class="form-control form-control-lg"></div><div class="mb-4"><label class="form-label fw-bold">קישור לוגו</label><input type="url" id="admin-setting-logo" class="form-control form-control-lg text-start" dir="ltr"></div><button class="btn btn-dark btn-lg w-100 rounded-pill fw-bold" onclick="saveSettings()" id="btn-save-settings"><i class="bi bi-save me-2"></i>שמור הגדרות</button></div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index: 1060;"><div id="sysToast" class="toast align-items-center text-bg-primary border-0 rounded-4 shadow-lg"><div class="d-flex p-2"><div class="toast-body fs-5 fw-medium" id="sysToastMsg"></div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div></div></div>
-
-  <!-- Modals -->
-  <div class="modal fade" id="authModal" tabindex="-1" data-bs-backdrop="static"><div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow-lg rounded-4"><div class="modal-header bg-gradient-primary text-white border-0 rounded-top-4 py-3"><h4 class="modal-title fw-bold"><i class="bi bi-shield-lock me-2"></i>אימות</h4><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body p-4"><div id="step-1"><input type="tel" id="id-input" class="form-control form-control-lg mb-4 text-center fs-4 tracking-wide" placeholder="תעודת זהות"><button class="btn btn-primary btn-lg w-100 rounded-pill fw-bold" id="btn-request-otp" onclick="handleRequestOTP()">שלח קוד לאימייל</button></div><div id="step-2" class="d-none"><input type="tel" id="otp-input" class="form-control form-control-lg mb-4 text-center fs-3 tracking-wide text-primary fw-bold" placeholder="- - - - - -"><button class="btn btn-success btn-lg w-100 rounded-pill fw-bold mb-3" id="btn-verify-otp" onclick="handleVerifyOTP()">אמת</button><button class="btn btn-light btn-lg w-100 rounded-pill text-secondary" onclick="resetAuthForm()">חזור</button></div><div id="auth-alert" class="alert d-none mt-4 mb-0 fs-5 rounded-3"></div></div></div></div></div>
-  <div class="modal fade" id="newMsgModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content rounded-4 border-0 shadow"><div class="modal-header bg-primary text-white rounded-top-4 py-3"><h5 class="modal-title fw-bold"><i class="bi bi-plus-circle me-2"></i>הודעה חדשה</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body p-4"><input type="text" id="new-msg-title" class="form-control mb-3" placeholder="כותרת"><textarea id="new-msg-content" class="form-control mb-3" rows="3" placeholder="תוכן..."></textarea><div class="row g-2 mb-3"><div class="col-12 col-md-6"><select id="new-msg-category" class="form-select"><option value="כללי">כללי</option><option value="דחוף">דחוף</option><option value="פנאי">פנאי</option></select></div><div class="col-12 col-md-6"><input type="datetime-local" id="new-msg-deadline" class="form-control"></div></div><div class="form-check form-switch mb-4 p-2 bg-light rounded"><input class="form-check-input ms-3" type="checkbox" id="new-msg-pinned"><label class="form-check-label fw-bold text-danger" for="new-msg-pinned">נעץ הודעה</label></div><button class="btn btn-primary w-100 rounded-pill fw-bold" onclick="submitNewMessage()" id="btn-submit-msg">פרסם</button></div></div></div></div>
-  <div class="modal fade" id="newPollModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content rounded-4 border-0 shadow"><div class="modal-header bg-success text-white rounded-top-4 py-3"><h5 class="modal-title fw-bold"><i class="bi bi-plus-circle me-2"></i>סקר חדש</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body p-4"><input type="text" id="new-poll-title" class="form-control mb-3" placeholder="נושא"><textarea id="new-poll-desc" class="form-control mb-3" rows="2" placeholder="תיאור..."></textarea><input type="text" id="new-poll-options" class="form-control mb-3" placeholder="אפשרויות (הפרד בפסיק)"><div class="row g-2 mb-3"><div class="col-12 col-md-6"><input type="datetime-local" id="new-poll-deadline" class="form-control"></div><div class="col-12 col-md-6"><select id="new-poll-visibility" class="form-select"><option value="always">גלויות תמיד</option><option value="after_close">לאחר סגירה</option></select></div></div><div class="form-check form-switch mb-4 p-2 bg-light rounded"><input class="form-check-input ms-3" type="checkbox" id="new-poll-secret" checked><label class="form-check-label fw-medium" for="new-poll-secret">חשאית</label></div><button class="btn btn-success w-100 rounded-pill fw-bold" onclick="submitNewPoll()" id="btn-submit-poll">פתח הצבעה</button></div></div></div></div>
-  <div class="modal fade" id="resultsModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content dark-glass border-0 shadow-lg"><div class="modal-header border-bottom border-secondary py-3"><h4 class="modal-title fw-bold"><i class="bi bi-bar-chart-fill me-2"></i>תוצאות ההצבעה</h4><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body p-4" id="resultsModalBody"><div class="text-center"><div class="spinner-border text-light"></div></div></div></div></div></div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://code.highcharts.com/highcharts.js"></script>
-  <script src="https://code.highcharts.com/highcharts-3d.js"></script>
-  
-  <script>
-    // ** עליך להחליף את הכתובת הזו בכתובת המלאה של פריסת ה-Apps Script שלך **
-    const API_URL = "https://script.google.com/macros/s/AKfycbzogIrpMjnFr0adkt1O0ATUL1adqA82V7KXGuE5f46pDkD36-CqgH5kj696ZQeIVUcoOw/exec";
-    
-    let authModalInstance, memberModalInstance, resultsModalInstance, newMsgModalInstance, newPollModalInstance;
-    let currentMembers=[], allPollsData=[], allMsgsData=[], isAdminUser=false, previewAsMember=false;
-
-    async function apiCall(action, payload = {}) {
-      try {
-        const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action, payload }) });
-        return await response.json();
-      } catch (e) { console.error(e); return { success: false, message: "שגיאת תקשורת עם השרת" }; }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      authModalInstance = new bootstrap.Modal(document.getElementById('authModal'));
-      resultsModalInstance = new bootstrap.Modal(document.getElementById('resultsModal'));
-      newMsgModalInstance = new bootstrap.Modal(document.getElementById('newMsgModal'));
-      newPollModalInstance = new bootstrap.Modal(document.getElementById('newPollModal'));
-      loadAppSettings(); checkLoginState();
-    });
-
-    function showToast(msg, type='primary') { const t = document.getElementById('sysToast'); t.className = `toast align-items-center text-bg-${type} border-0 rounded-4 shadow-lg`; document.getElementById('sysToastMsg').innerHTML = msg; new bootstrap.Toast(t, { delay: 3500 }).show(); }
-    function setBtnLoading(btnId, isLoading, text) { const btn = document.getElementById(btnId); if(btn) { btn.disabled = isLoading; btn.innerHTML = isLoading ? `<span class="spinner-border spinner-border-sm me-2"></span>מעבד...` : text; } }
-
-    function loadAppSettings() {
-      apiCall('getAppSettings').then(settings => {
-        document.title = settings.title || 'אגודה'; document.getElementById('admin-setting-title').value = settings.title || '';
-        const logoEl = document.getElementById('app-logo');
-        if(settings.logo) { logoEl.src = settings.logo; logoEl.classList.remove('d-none'); document.getElementById('app-title-display').innerHTML = settings.title; } else { logoEl.classList.add('d-none'); document.getElementById('app-title-display').innerHTML = '<i class="bi bi-houses me-2"></i>' + settings.title; }
-        document.getElementById('admin-setting-logo').value = settings.logo || '';
-      });
-    }
-
-    function saveSettings() {
-      const t = document.getElementById('admin-setting-title').value.trim(), l = document.getElementById('admin-setting-logo').value.trim();
-      setBtnLoading('btn-save-settings', true);
-      apiCall('saveAppSettings', { adminId: localStorage.getItem("authMemberId"), title: t, logo: l }).then(res => { setBtnLoading('btn-save-settings', false, '<i class="bi bi-save me-2"></i>שמור הגדרות'); showToast(res.message, res.success ? "success" : "danger"); if(res.success) loadAppSettings(); });
-    }
-
-    function checkLoginState() {
-      const savedId = localStorage.getItem("authMemberId");
-      if (savedId) {
-        document.getElementById("nav-login-btn").innerHTML = '<i class="bi bi-box-arrow-right me-1"></i> התנתק';
-        document.getElementById("nav-login-btn").onclick = () => { if(confirm("להתנתק?")) { localStorage.removeItem("authMemberId"); location.reload(); } };
-        apiCall('checkAdminStatus', { memberId: savedId }).then(res => { isAdminUser = res.success || res; updateUIForAdmin(); if(isAdminUser) { document.getElementById("preview-mode-wrapper").classList.remove("d-none"); loadAdminMembers(); } loadData(); });
-      } else {
-        updateUIForAdmin(); document.getElementById("nav-login-btn").onclick = () => authModalInstance.show(); loadData();
-      }
-    }
-
-    function updateUIForAdmin() { document.querySelectorAll('.admin-only-ui').forEach(el => { if(isAdminUser && !previewAsMember) el.classList.remove('d-none'); else el.classList.add('d-none'); }); }
-    function togglePreviewMode() { previewAsMember = document.getElementById("preview-mode-toggle").checked; updateUIForAdmin(); renderMessages(allMsgsData); renderPolls(allPollsData); }
-
-    function loadData() { 
-      apiCall('getAppData').then(data => { allMsgsData = data.messages || []; allPollsData = data.polls || []; renderMessages(allMsgsData); renderPolls(allPollsData); checkDeepLink(); });
-    }
-
-    function checkDeepLink() {
-      const params = new URLSearchParams(window.location.search); const pId = params.get('pollId');
-      if(pId && allPollsData.some(p => p.id === pId)) {
-        bootstrap.Tab.getInstance(document.getElementById('polls-tab')).show();
-        setTimeout(() => { const el = document.getElementById('poll-card-'+pId); if(el) { el.scrollIntoView({behavior: 'smooth', block: 'center'}); el.style.boxShadow = "0 0 20px rgba(59, 130, 246, 0.8)"; setTimeout(()=> el.style.boxShadow = "", 3000); } }, 800);
-      }
-    }
-
-    function renderMessages(msgs) {
-      const cont = document.getElementById("messages-container"); cont.innerHTML = "";
-      if (!msgs.length) return cont.innerHTML = "<div class='text-muted fs-4 mt-4'>אין הודעות.</div>";
-      msgs.forEach(m => {
-        let bClr = m.category==="דחוף" ? "bg-danger text-white" : (m.category==="פנאי" ? "bg-success text-success" : "bg-primary text-primary");
-        const pinBadge = m.isPinned ? `<span class="badge bg-warning text-dark border ms-2 px-3 py-2 rounded-pill"><i class="bi bi-pin-angle-fill"></i> נעוץ</span>` : '';
-        let adminToolbar = (isAdminUser && !previewAsMember) ? `<div class="admin-toolbar d-flex gap-2 justify-content-end mt-3"><button class="btn btn-sm btn-danger rounded-pill px-3" onclick="deleteMsgAction('${m.id}')"><i class="bi bi-trash"></i> מחיקה</button></div>` : '';
-        cont.innerHTML += `<div class="glass-panel mb-4 text-start p-4"><div class="d-flex justify-content-between mb-3 border-bottom pb-2"><div><span class="badge ${bClr} bg-opacity-10 border fs-6 px-3 py-2 rounded-pill">${m.category}</span>${pinBadge}</div><small class="text-secondary fw-medium fs-6 mt-1">${m.timestamp}</small></div><h3 class="card-title fw-bold text-dark mb-3">${m.title}</h3><p class="card-text text-secondary fs-5 lh-lg" style="white-space: pre-wrap;">${m.content}</p>${adminToolbar}</div>`;
-      });
-    }
-
-    function renderPolls(polls) {
-      const cont = document.getElementById("polls-container"); cont.innerHTML = "";
-      if (!polls.length) return cont.innerHTML = "<div class='text-muted fs-4 mt-4'>אין סקרים כרגע.</div>";
-      
-      const baseUrl = window.location.origin + window.location.pathname;
-      polls.forEach(p => {
-        let opts = "";
-        p.options.forEach((o, i) => { if(o.trim()) opts += `<div class="poll-option-wrapper d-flex align-items-center" onclick="document.getElementById('opt_${p.id}_${i}').checked = true;"><input class="form-check-input mt-0" type="radio" name="poll_${p.id}" id="opt_${p.id}_${i}" value="${o.trim()}"><label class="form-check-label text-dark" for="opt_${p.id}_${i}">${o.trim()}</label></div>`; });
-        
-        const now = new Date().getTime(); let isClosed = false, timeHtml = '';
-        if(p.deadline) {
-          const dl = new Date(p.deadline).getTime();
-          if(now > dl) { isClosed = true; timeHtml = `<span class="badge bg-danger px-3 py-2 fs-6 rounded-pill mb-4"><i class="bi bi-clock-history me-1"></i> נסגר</span>`; } 
-          else { timeHtml = `<span class="badge bg-warning text-dark px-3 py-2 fs-6 rounded-pill mb-4"><i class="bi bi-stopwatch me-1"></i> פתוח</span>`; }
-        }
-        
-        const shareUrl = `${baseUrl}?pollId=${p.id}`;
-        const waText = encodeURIComponent(`הצבעה חדשה באגודה: ${p.title}\nלחצו כאן כדי להצביע:\n${shareUrl}`);
-        const shareBtnHtml = `<a href="https://api.whatsapp.com/send?text=${waText}" target="_blank" class="btn btn-outline-success rounded-pill fw-bold w-100 mb-3 py-2"><i class="bi bi-whatsapp me-2"></i>שתף בווטסאפ</a>`;
-        
-        let buttonsHtml = '';
-        if(!isClosed) buttonsHtml += `<button class="btn btn-primary btn-lg w-100 rounded-pill fw-bold shadow-sm py-3 mb-3" id="btn-vote-${p.id}" onclick="initiateVote('${p.id}')">שלח הצבעה</button>`;
-        if(p.visibility === 'always' || (p.visibility === 'after_close' && isClosed)) buttonsHtml += `<button class="btn btn-outline-primary btn-lg w-100 rounded-pill fw-bold shadow-sm py-3 bg-white mb-3" onclick="viewResults('${p.id}')"><i class="bi bi-bar-chart-fill me-2"></i>תוצאות</button>`;
-        
-        let adminToolbar = (isAdminUser && !previewAsMember) ? `<div class="admin-toolbar d-flex flex-wrap gap-2 justify-content-end mt-4"><button class="btn btn-sm btn-primary rounded-pill px-3" onclick="viewResults('${p.id}')"><i class="bi bi-bar-chart"></i> תוצאות מנהל</button><button class="btn btn-sm btn-danger rounded-pill px-3" onclick="deletePollAction('${p.id}')"><i class="bi bi-trash"></i> מחק</button></div>` : '';
-        
-        cont.innerHTML += `<div id="poll-card-${p.id}" class="glass-panel mb-5 text-start p-4 p-md-5"><h3 class="card-title text-primary fw-bold mb-3">${p.title}</h3><p class="card-text fs-5 text-secondary mb-4">${p.description}</p><div>${timeHtml}</div><div class="mb-4 pt-2">${opts}</div>${buttonsHtml}${shareBtnHtml}${adminToolbar}</div>`;
-      });
-    }
-
-    function deleteMsgAction(id) { if(confirm("למחוק הודעה?")) apiCall('deleteMessage', {adminId: localStorage.getItem("authMemberId"), msgId: id}).then(r => { showToast(r.message, r.success?"success":"danger"); loadData(); }); }
-    function deletePollAction(id) { if(confirm("למחוק סקר?")) apiCall('deletePoll', {adminId: localStorage.getItem("authMemberId"), pollId: id}).then(r => { showToast(r.message, r.success?"success":"danger"); loadData(); }); }
-
-    function submitNewMessage() {
-      const t = document.getElementById("new-msg-title").value.trim(), c = document.getElementById("new-msg-content").value.trim();
-      if(!t || !c) return showToast("מלא כותרת ותוכן.", "warning");
-      setBtnLoading('btn-submit-msg', true);
-      apiCall('addMessage', { adminId: localStorage.getItem("authMemberId"), title: t, content: c, category: document.getElementById("new-msg-category").value, validUntil: document.getElementById("new-msg-deadline").value, isPinned: document.getElementById("new-msg-pinned").checked }).then(r => { 
-        setBtnLoading('btn-submit-msg', false, 'פרסם'); showToast(r.message, r.success?"success":"danger"); if(r.success) { newMsgModalInstance.hide(); loadData(); } 
-      });
-    }
-    
-    function submitNewPoll() {
-      const t = document.getElementById("new-poll-title").value.trim(), o = document.getElementById("new-poll-options").value.trim();
-      if(!t || !o) return showToast("מלא נושא ואפשרויות.", "warning");
-      setBtnLoading('btn-submit-poll', true);
-      apiCall('addPoll', { adminId: localStorage.getItem("authMemberId"), title: t, description: document.getElementById("new-poll-desc").value.trim(), options: o, isSecret: document.getElementById("new-poll-secret").checked, deadline: document.getElementById("new-poll-deadline").value, visibility: document.getElementById("new-poll-visibility").value }).then(r => { 
-        setBtnLoading('btn-submit-poll', false, 'פתח הצבעה'); showToast(r.message, r.success?"success":"danger"); if(r.success) { newPollModalInstance.hide(); loadData(); } 
-      });
-    }
-
-    function initiateVote(pollId) { const opt = document.querySelector(`input[name="poll_${pollId}"]:checked`); if (!opt) return showToast("בחר אפשרות להצבעה.", "warning"); const savedId = localStorage.getItem("authMemberId"); if (!savedId) authModalInstance.show(); else { setBtnLoading(`btn-vote-${pollId}`, true); apiCall('submitVote', {pollId, memberId: savedId, voteSelection: opt.value}).then(r => { setBtnLoading(`btn-vote-${pollId}`, false, 'שלח הצבעה'); showToast(r.message, r.success?"success":"danger"); }); } }
-    
-    function viewResults(pollId) {
-      document.getElementById("resultsModalBody").innerHTML = '<div class="text-center py-5"><div class="spinner-border text-light"></div></div>';
-      resultsModalInstance.show();
-      apiCall('getPollResults', { pollId, memberId: localStorage.getItem("authMemberId") || "" }).then(res => {
-        if(!res.success) return document.getElementById("resultsModalBody").innerHTML = `<div class="alert alert-danger">${res.message}</div>`;
-        document.getElementById("resultsModalBody").innerHTML = `<h4 class="mb-4 text-center fw-bold" style="color:#e0eafc;">סה"כ מצביעים: <span style="color:#00ff9d;">${res.total}</span></h4><div style="position: relative;"><div id="pollChart3D" style="height: 380px; width: 100%; direction: ltr;"></div></div>`;
-        Highcharts.chart('pollChart3D', { chart: { type: 'pie', backgroundColor: 'transparent', options3d: { enabled: true, alpha: 45, beta: 0 } }, title: { text: null }, tooltip: { pointFormat: 'קולות: <b>{point.y}</b> ({point.percentage:.1f}%)', style: { fontFamily: 'Segoe UI', fontSize: '14px', direction: 'rtl' }, useHTML: true }, plotOptions: { pie: { innerSize: '55%', depth: 40, dataLabels: { enabled: true, format: '<b>{point.name}</b><br>{point.percentage:.1f}%', style: { color: '#ffffff', textOutline: 'none', fontSize: '15px' } }, colors: ['#00f2fe', '#f093fb', '#00ff9d', '#ff0844', '#f5576c'] } }, series: [{ name: 'תוצאות', data: res.results.map(r => ({ name: r.option, y: r.votes })) }], credits: { enabled: false } });
-      });
-    }
-
-    function showAuthAlert(msg) { const a = document.getElementById("auth-alert"); a.className = `alert alert-danger mt-4 mb-0 fs-5 rounded-3 border-0`; a.innerHTML = msg; a.classList.remove("d-none"); }
-    function hideAuthAlert() { document.getElementById("auth-alert").classList.add("d-none"); }
-    
-    function handleRequestOTP() {
-      const id = document.getElementById("id-input").value.trim(); if(!id) return showAuthAlert("הקלד תעודת זהות."); hideAuthAlert();
-      setBtnLoading('btn-request-otp', true);
-      apiCall('requestOTP', { memberId: id }).then(res => { setBtnLoading('btn-request-otp', false, 'שלח קוד לאימייל'); if(res.success) { document.getElementById("step-1").classList.add("d-none"); document.getElementById("step-2").classList.remove("d-none"); } else showAuthAlert(res.message); });
-    }
-    
-    function handleVerifyOTP() {
-      const id = document.getElementById("id-input").value.trim(), otp = document.getElementById("otp-input").value.trim(); if(!otp) return showAuthAlert("הזן קוד."); hideAuthAlert();
-      setBtnLoading('btn-verify-otp', true);
-      apiCall('verifyOTP', { memberId: id, otp }).then(res => { setBtnLoading('btn-verify-otp', false, 'אמת'); if(res.success) { localStorage.setItem("authMemberId", id); setTimeout(() => { authModalInstance.hide(); checkLoginState(); }, 1000); } else showAuthAlert(res.message); });
+      const blobUrl = URL.createObjectURL(new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' }));
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = 'Members.csv';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(blobUrl);
     }
   </script>
 </body>
